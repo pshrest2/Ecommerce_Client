@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Layout from "../core/Layout";
-import { Link, Redirect } from "react-router-dom";
-import { signin } from "../auth";
+import { Redirect } from "react-router-dom";
+import { signin, authenticate } from "../auth";
 
 const Signin = () => {
   const [values, setValues] = useState({
-    email: "",
-    password: "",
+    email: "pranaya.shrestha2@gmail.com",
+    password: "hello123",
     error: "",
     loading: false,
     redirect: false,
@@ -26,9 +26,11 @@ const Signin = () => {
       if (data.error) {
         setValues({ ...values, error: data.error, loading: false });
       } else {
-        setValues({
-          ...values,
-          redirect: true,
+        authenticate(data, () => {
+          setValues({
+            ...values,
+            redirect: true,
+          });
         });
       }
     });
@@ -83,7 +85,7 @@ const Signin = () => {
 
   return (
     <Layout
-      title="Sign Up Page"
+      title="Sign In Page"
       description="Node React ECommerce App"
       className="container col-md-8 offset-md-2"
     >
