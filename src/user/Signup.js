@@ -11,7 +11,7 @@ const Signup = () => {
     success: false,
   });
 
-  const { name, email, password } = values;
+  const { name, email, password, success, error } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
@@ -19,11 +19,24 @@ const Signup = () => {
 
   const clickSubmit = (event) => {
     event.preventDefault();
-    signup({ name, email, password });
+    signup({ name, email, password }).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error, success: false });
+      } else {
+        setValues({
+          ...values,
+          name: "",
+          email: "",
+          password: "",
+          error: "",
+          success: true,
+        });
+      }
+    });
   };
 
   const signup = (user) => {
-    fetch(`${API}/signup`, {
+    return fetch(`${API}/signup`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -47,6 +60,7 @@ const Signup = () => {
           onChange={handleChange("name")}
           type="text"
           className="form-control"
+          value={name}
         />
       </div>
       <div className="form-group">
@@ -55,6 +69,7 @@ const Signup = () => {
           onChange={handleChange("email")}
           type="email"
           className="form-control"
+          value={email}
         />
       </div>
       <div className="form-group">
@@ -63,6 +78,7 @@ const Signup = () => {
           onChange={handleChange("password")}
           type="password"
           className="form-control"
+          value={password}
         />
       </div>
       <button onClick={clickSubmit} className="btn btn-primary">
@@ -71,12 +87,31 @@ const Signup = () => {
     </form>
   );
 
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: error ? "" : "none" }}
+    >
+      {error}
+    </div>
+  );
+  const showSuccess = () => (
+    <div
+      className="alert alert-info"
+      style={{ display: success ? "" : "none" }}
+    >
+      Account Create Successfully
+    </div>
+  );
+
   return (
     <Layout
       title="Sign Up Page"
       description="Node React ECommerce App"
       className="container col-md-8 offset-md-2"
     >
+      {showSuccess()}
+      {showError()}
       {signUpForm()}
       {JSON.stringify(values)}
     </Layout>
