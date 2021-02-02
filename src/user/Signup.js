@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../core/Layout";
 import { API } from "../config";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const [values, setValues] = useState({
@@ -14,11 +15,13 @@ const Signup = () => {
   const { name, email, password, success, error } = values;
 
   const handleChange = (name) => (event) => {
+    // this name variable is different from the state's name variable in line 8.
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
   const clickSubmit = (event) => {
     event.preventDefault();
+    setValues({ ...values, error: false });
     signup({ name, email, password }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
@@ -43,13 +46,13 @@ const Signup = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => {
+      console.log(res);
+      return res.json();
+    });
+    // .catch((err) => {
+    //   console.log(err);
+    // });  // is this necessary?
   };
 
   const signUpForm = () => (
@@ -100,7 +103,7 @@ const Signup = () => {
       className="alert alert-info"
       style={{ display: success ? "" : "none" }}
     >
-      Account Create Successfully
+      Account Create Successfully. Please <Link to="/signin">Signin</Link>
     </div>
   );
 
@@ -113,7 +116,6 @@ const Signup = () => {
       {showSuccess()}
       {showError()}
       {signUpForm()}
-      {JSON.stringify(values)}
     </Layout>
   );
 };
