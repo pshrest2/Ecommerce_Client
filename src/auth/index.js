@@ -24,12 +24,13 @@ export const signin = (user) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(user),
-  }).then((res) => {
-    return res.json();
-  });
-  // .catch((err) => {
-  //   console.log(err);
-  // });
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export const authenticate = (data, next) => {
@@ -48,8 +49,16 @@ export const signout = (next) => {
       method: "GET",
     })
       .then((res) => {
-        console.log("signout", res);
+        console.log("Signed out successfully");
       })
       .catch((err) => console.log(err));
   }
+};
+
+export const isAuthenticated = () => {
+  if (typeof window === "undefined") return false;
+
+  const jwt = localStorage.getItem("jwt");
+  if (jwt) return JSON.parse(jwt);
+  else return false;
 };
