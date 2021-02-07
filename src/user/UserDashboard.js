@@ -46,7 +46,7 @@ const Dashboard = () => {
   const purchaseHistory = () => {
     return (
       <div className="card mb-5">
-        <h3 classname="card-header"> Purchase History </h3>
+        <h3 className="card-header"> Purchase History </h3>
 
         <ul className="list-group">
           <li className="list-group-item">history</li>
