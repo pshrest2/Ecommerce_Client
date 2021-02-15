@@ -76,6 +76,8 @@ const AddProduct = () => {
           price: "",
           quantity: "",
           loading: false,
+          category: "Please Select",
+          shipping: "Please Select",
           createdProduct: data.name,
         });
       }
@@ -131,11 +133,10 @@ const AddProduct = () => {
           <label className="text-muted">Category</label>
           <select onChange={handleChange("category")} className="form-control">
             <option>Please Select</option>
-            {console.log(categories[0])}
             {categories &&
               categories.map((category, index) => {
                 return (
-                  <option key={index} values={category._id}>
+                  <option key={index} value={category._id}>
                     {category.name}
                   </option>
                 );
@@ -167,10 +168,45 @@ const AddProduct = () => {
     );
   };
 
+  const showError = () => {
+    return (
+      <div
+        className="alert alert-danger"
+        style={{ display: error ? "" : "none" }}
+      >
+        {error}
+      </div>
+    );
+  };
+
+  const showSuccess = () => {
+    return (
+      <div
+        className="alert alert-info"
+        style={{ display: createdProduct ? "" : "none" }}
+      >
+        <h2>{`${createdProduct} is created`}</h2>
+      </div>
+    );
+  };
+
+  const showLoading = () => {
+    loading && (
+      <div className="alert alert-success">
+        <h2>Loading...</h2>
+      </div>
+    );
+  };
+
   return (
     <Layout title="Add a new Product" description={user.name}>
       <div className="row">
-        <div className="col-md-8 offset-md-2">{newForm()}</div>
+        <div className="col-md-8 offset-md-2">
+          {showLoading()}
+          {showSuccess()}
+          {showError()}
+          {newForm()}
+        </div>
       </div>
     </Layout>
   );
