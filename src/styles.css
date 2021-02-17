@@ -3,16 +3,13 @@
   margin: 0;
   padding: 0;
   font-family: "PT Sans", sans-serif;
+  background-color: "#fff";
 }
 
 .btn,
 .jumbotron,
 .nav :hover {
   border-radius: 0px;
-}
-
-.product-img {
-  min-height: 100px;
 }
 
 .jumbotron h2 {
@@ -23,11 +20,4 @@
   .jumbotron h2 {
     margin-top: 10px;
   }
-}
-
-/* Card Images */
-.card-img {
-  width: 15vw;
-  height: 15vw;
-  object-fit: cover;
 }
