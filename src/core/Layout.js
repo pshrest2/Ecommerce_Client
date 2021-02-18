@@ -9,6 +9,7 @@ const Layout = ({
   children,
 }) => (
   <div>
+    <Menu />
     <div className="jumbotron">
       <h2>{title}</h2>
       <p className="lead"> {description} </p>

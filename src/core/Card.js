@@ -8,7 +8,7 @@ import "./css/Button.css";
 const Card = ({ product }) => {
   return (
     <div className="col-4 mb-3">
-      <Link className="cards__item__link">
+      <Link className="cards__item__link" to="/">
         <div className="cards__item__info">
           <ShowImage item={product} url="product" />
 

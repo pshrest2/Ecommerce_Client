@@ -23,10 +23,14 @@
   justify-self: start;
   margin-left: 20px;
   cursor: pointer;
-  text-decoration: none;
+  text-decoration: none !important;
   font-size: 2rem;
   display: flex;
   align-items: center;
+}
+
+.navbar-logo:hover {
+  color: #ff9900 !important;
 }
 
 .fa-typo3 {

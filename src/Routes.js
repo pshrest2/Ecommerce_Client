@@ -9,12 +9,10 @@ import Dashboard from "./user/UserDashboard";
 import AdminDashboard from "./user/AdminDashboard";
 import AddCategory from "./admin/AddCategory";
 import AddProduct from "./admin/AddProduct";
-import Menu from "./core/Menu";
 
 const Routes = () => {
   return (
     <BrowserRouter>
-      <Menu />
       <Switch>
         <Route path="/signin" exact component={Signin} />
         <Route path="/signup" exact component={Signup} />

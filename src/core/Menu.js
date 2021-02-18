@@ -2,7 +2,6 @@ import { React, Fragment, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth";
 
-import { Button } from "./Button";
 import "./css/Menu.css";
 
 const isActive = (history, path) => {
@@ -37,7 +36,7 @@ const Menu = ({ history }) => {
         <div className="navbar-container">
           <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
             Nep-Shop
-            <i class="fab fa-typo3" />
+            <i className="fab fa-typo3" />
           </Link>
           <div className="menu-icon" onClick={handleClick}>
             <i className={click ? "fas fa-times" : "fas fa-bars"} />
