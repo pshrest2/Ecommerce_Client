@@ -40,17 +40,29 @@ const Home = () => {
       description="Node React ECommerce App"
     >
       <h2 className="mb-4">New Arrivals</h2>
-      <div className="row">
-        {productsByArrival.map((product, index) => (
-          <Card key={index} product={product} />
-        ))}
+      <div className="cards">
+        <div className="cards__container">
+          <div className="cards__wrapper">
+            <div className="row">
+              {productsByArrival.map((product, index) => (
+                <Card key={index} product={product} />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       <h2 className="mb-4">Best Sellers</h2>
-      <div className="row">
-        {productsBySell.map((product, index) => (
-          <Card key={index} product={product} />
-        ))}
+      <div className="cards">
+        <div className="cards__container">
+          <div className="cards__wrapper">
+            <div className="row">
+              {productsByArrival.map((product, index) => (
+                <Card key={index} product={product} />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </Layout>
   );

@@ -2,13 +2,13 @@ import React from "react";
 import { API } from "../config";
 
 const ShowImage = ({ item, url }) => (
-  <div className="product-img">
+  <figure className="cards__item__pic-wrap" data-category={`$${item.price}`}>
     <img
-      className="mb-3 card-img"
-      src={`${API}/${url}/photo/${item._id}`}
+      className="cards__item__img"
       alt={item.name}
+      src={`${API}/${url}/photo/${item._id}`}
     />
-  </div>
+  </figure>
 );
 
 export default ShowImage;

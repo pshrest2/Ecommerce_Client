@@ -1,38 +1,26 @@
 import React from "react";
-import CardItem from "./CardItem";
+import ShowImage from "./ShowImage";
+import { Link } from "react-router-dom";
+
 import "./css/Card.css";
+import "./css/Button.css";
 
 const Card = ({ product }) => {
   return (
-    <div className="cards">
-      <div className="cards__container">
-        <div className="cards__wrapper">
-          <ul className="cards__items">
-            <CardItem item={product} url="product" />
-          </ul>
+    <div className="col-4 mb-3">
+      <Link className="cards__item__link">
+        <div className="cards__item__info">
+          <ShowImage item={product} url="product" />
+
+          <h5 className="cards__item__text">{product.name}</h5>
+          <p className="cards__item__text_description">{product.description}</p>
         </div>
-      </div>
+
+        <button className="btn btn-outline-warning mt-2 mb-2">
+          Add to Cart
+        </button>
+      </Link>
     </div>
-
-    // <div className="col-3 mb-3 main-card">
-    // <div className="card">
-    //   <div className="card-header">{product.name}</div>
-    //   <div className="card-body">
-    //     <ShowImage item={product} url="product" />
-    //     <p>{product.description}</p>
-    //     <p>${product.price}</p>
-    //     <Link to="/">
-    //       <button className="btn btn-outline-primary mt-2 mb-2 mr-2">
-    //         View Product
-    //       </button>
-    //     </Link>
-
-    //     <button className="btn btn-outline-warning mt-2 mb-2">
-    //       Add to Cart
-    //     </button>
-    //   </div>
-    // </div>
-    // </div>
   );
 };
 
