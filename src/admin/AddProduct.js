@@ -141,11 +141,13 @@ const AddProduct = () => {
         >
           <option>Please select</option>
           {categories &&
-            categories.map((category, index) => (
-              <option key={index} value={category._id}>
-                {category.name}
-              </option>
-            ))}
+            categories
+              .sort((a, b) => (a.name > b.name ? 1 : -1))
+              .map((category, index) => (
+                <option key={index} value={category._id}>
+                  {category.name}
+                </option>
+              ))}
         </select>
       </div>
 

@@ -52,6 +52,16 @@ const Menu = ({ history }) => {
                 Home
               </Link>
             </li>
+            <li className="nav-item">
+              <Link
+                className="nav-links"
+                style={isActive(history, "/")}
+                to="/shop"
+                onClick={closeMobileMenu}
+              >
+                Shop
+              </Link>
+            </li>
 
             {isAuthenticated() && isAuthenticated().user.role === 0 && (
               <li className="nav-item">
