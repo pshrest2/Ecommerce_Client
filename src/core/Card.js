@@ -13,7 +13,9 @@ const Card = ({ product }) => {
           <ShowImage item={product} url="product" />
 
           <h5 className="cards__item__text">{product.name}</h5>
-          <p className="cards__item__text_description">{product.description}</p>
+          <p className="cards__item__text_description">
+            {product.description.substring(0, 50)}
+          </p>
         </div>
 
         <button className="btn btn-outline-warning mt-2 mb-2">
