@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Layout from "./Layout";
 import { getProducts } from "./apiCore";
+
+import Layout from "./Layout";
 import Card from "./Card";
+import Search from "./Search";
+
 import "./css/Home.css";
 
 const Home = () => {
@@ -39,6 +42,7 @@ const Home = () => {
       title="Home Page"
       description="Node React ECommerce App"
     >
+      <Search />
       <h2 className="mb-4">New Arrivals</h2>
       <div className="cards">
         <div className="cards__container">
