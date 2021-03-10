@@ -49,3 +49,38 @@ export const getCartItems = () => {
   }
   return [];
 };
+
+export const updateItem = (id, count) => {
+  let cart = [];
+  if (typeof window != "undefined") {
+    if (localStorage.getItem("cart")) {
+      cart = JSON.parse(localStorage.getItem("cart"));
+    }
+
+    cart.map((product, index) => {
+      if (product._id === id) {
+        cart[index].count = count;
+      }
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+};
+
+export const removeItem = (id) => {
+  let cart = [];
+  if (typeof window != "undefined") {
+    if (localStorage.getItem("cart")) {
+      cart = JSON.parse(localStorage.getItem("cart"));
+    }
+
+    cart.map((product, index) => {
+      if (product._id === id) {
+        cart.splice(index, 1);
+      }
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+  return cart;
+};

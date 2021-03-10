@@ -6,10 +6,11 @@ import Card from "./Card";
 
 const Cart = () => {
   const [items, setItems] = useState([]);
+  const [run, setRun] = useState(false);
 
   useEffect(() => {
     setItems(getCartItems());
-  }, []);
+  }, [run]);
 
   const showItems = (items) => {
     return (
@@ -19,7 +20,14 @@ const Cart = () => {
         <div className="row">
           {items.map((product, index) => (
             <div key={index} className="col-4 mb-3">
-              <Card product={product} showAddToCartButton={false} />
+              <Card
+                product={product}
+                showAddToCartButton={false}
+                cartUpdate={true}
+                showRemoveCartItemButton={true}
+                setRun={setRun}
+                run={run}
+              />
             </div>
           ))}
         </div>
@@ -47,7 +55,7 @@ const Cart = () => {
           {items.length > 0 ? showItems(items) : noItemsMessage()}
         </div>
         <div className="col-6">
-          <h4>CheckOut</h4>
+          <h4>Checkout</h4>
         </div>
       </div>
     </Layout>

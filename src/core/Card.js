@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import ShowImage from "./ShowImage";
 import { Link, Redirect } from "react-router-dom";
-import { addItem } from "./cartHelper";
+import { addItem, updateItem, removeItem } from "./cartHelper";
 import moment from "moment";
 
 import "./css/Card.css";
 import "./css/Button.css";
 
-const Card = ({ product, showAddToCartButton = true }) => {
+const Card = ({
+  product,
+  showAddToCartButton = true,
+  cartUpdate = false,
+  showRemoveCartItemButton = false,
+  setRun = (f) => f,
+  run = undefined,
+}) => {
   const [redirect, setRedirect] = useState(false);
+  const [count, setCount] = useState(product.count);
 
   const showProductStock = (quantity) => {
     return quantity > 0 ? (
@@ -47,6 +55,51 @@ const Card = ({ product, showAddToCartButton = true }) => {
     );
   };
 
+  const showRemoveCartItem = (showRemoveCartItemButton) => {
+    return (
+      showRemoveCartItemButton && (
+        <button
+          onClick={() => {
+            removeItem(product._id);
+            setRun(!run);
+          }}
+          className="btn btn-outline-danger mt-2 mb-2"
+        >
+          Remove Item
+        </button>
+      )
+    );
+  };
+
+  const showUpdateCart = (cartUpdate) => {
+    return (
+      cartUpdate && (
+        <div>
+          <div className="input-group mb-3">
+            <div className="input-group-prepend0">
+              <span className="input-group-text">Adjust Quantity</span>
+            </div>
+            <input
+              type="number"
+              className="form-control"
+              value={count}
+              onChange={handleChange(product._id)}
+            />
+          </div>
+        </div>
+      )
+    );
+  };
+
+  const handleChange = (id) => (event) => {
+    setRun(!run);
+    let count = event.target.value;
+    setCount(count < 1 ? 1 : count);
+    if (count >= 1) {
+      updateItem(id, count);
+    }
+  };
+
   return (
     <>
       <Link className="cards__item__link" to={`/product/${product._id}`}>
@@ -63,6 +116,8 @@ const Card = ({ product, showAddToCartButton = true }) => {
         </div>
       </Link>
       {showAddToCart(showAddToCartButton)}
+      {showUpdateCart(cartUpdate)}
+      {showRemoveCartItem(showRemoveCartItemButton)}
     </>
   );
 };
