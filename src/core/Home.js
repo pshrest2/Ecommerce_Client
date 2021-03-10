@@ -49,7 +49,9 @@ const Home = () => {
           <div className="cards__wrapper">
             <div className="row">
               {productsByArrival.map((product, index) => (
-                <Card key={index} product={product} />
+                <div key={index} className="col-4 mb-3">
+                  <Card product={product} />
+                </div>
               ))}
             </div>
           </div>
@@ -62,7 +64,9 @@ const Home = () => {
           <div className="cards__wrapper">
             <div className="row">
               {productsByArrival.map((product, index) => (
-                <Card key={index} product={product} />
+                <div key={index} className="col-4 mb-3">
+                  <Card product={product} />
+                </div>
               ))}
             </div>
           </div>
