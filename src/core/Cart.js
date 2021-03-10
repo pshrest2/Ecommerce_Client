@@ -19,7 +19,7 @@ const Cart = () => {
         <div className="row">
           {items.map((product, index) => (
             <div key={index} className="col-4 mb-3">
-              <Card product={product} />
+              <Card product={product} showAddToCartButton={false} />
             </div>
           ))}
         </div>

@@ -7,7 +7,7 @@ import moment from "moment";
 import "./css/Card.css";
 import "./css/Button.css";
 
-const Card = ({ product }) => {
+const Card = ({ product, showAddToCartButton = true }) => {
   const [redirect, setRedirect] = useState(false);
 
   const showProductStock = (quantity) => {
@@ -34,11 +34,16 @@ const Card = ({ product }) => {
     }
   };
 
-  const showAddToCart = () => {
+  const showAddToCart = (showAddToCartButton) => {
     return (
-      <button onClick={addToCart} className="btn btn-outline-warning mt-2 mb-2">
-        Add to Cart
-      </button>
+      showAddToCartButton && (
+        <button
+          onClick={addToCart}
+          className="btn btn-outline-warning mt-2 mb-2"
+        >
+          Add to Cart
+        </button>
+      )
     );
   };
 
@@ -57,7 +62,7 @@ const Card = ({ product }) => {
           </p>
         </div>
       </Link>
-      {showAddToCart()}
+      {showAddToCart(showAddToCartButton)}
     </>
   );
 };
