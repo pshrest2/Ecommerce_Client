@@ -1,6 +1,7 @@
 import { React, Fragment, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth";
+import { totalItems } from "./cartHelper";
 
 import "./css/Menu.css";
 
@@ -52,6 +53,7 @@ const Menu = ({ history }) => {
                 Home
               </Link>
             </li>
+
             <li className="nav-item">
               <Link
                 className="nav-links"
@@ -60,6 +62,20 @@ const Menu = ({ history }) => {
                 onClick={closeMobileMenu}
               >
                 Shop
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link
+                className="nav-links"
+                style={isActive(history, "/cart")}
+                to="/cart"
+                onClick={closeMobileMenu}
+              >
+                Cart
+                <sup>
+                  <small className="cart-badge">{totalItems()}</small>
+                </sup>
               </Link>
             </li>
 
