@@ -39,3 +39,13 @@ export const totalItems = () => {
   }
   return 0;
 };
+
+export const getCartItems = () => {
+  if (typeof window != "undefined") {
+    let localStorageItem = localStorage.getItem("cart");
+    if (localStorageItem) {
+      return JSON.parse(localStorageItem);
+    }
+  }
+  return [];
+};
