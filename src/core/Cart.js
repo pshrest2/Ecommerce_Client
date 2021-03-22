@@ -25,61 +25,64 @@ const Cart = () => {
     }
   };
 
-  const getTotal = () => {
+  const getSubTotal = () => {
     return items.reduce((currentValue, nextValue) => {
       return currentValue + nextValue.count * nextValue.price;
     }, 0);
   };
 
+  const getTax = () => {
+    return getSubTotal() * 0.07;
+  };
+
+  const getTotal = () => {
+    return getSubTotal() + getTax();
+  };
+
   const showItems = (items) => {
     return (
       <div className="container">
-        <h2>Your cart has {`${items.length}`} items</h2>
+        <h2>Your Cart has {`${items.length}`} Items</h2>
 
         <div className="small-container cart-page">
           <table>
-            <tr>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Subtotal</th>
-            </tr>
-            {items.map((item, index) => (
-              <CartItems product={item} setRun={setRun} run={run} />
-            ))}
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item, index) => (
+                <CartItems
+                  key={index}
+                  product={item}
+                  setRun={setRun}
+                  run={run}
+                />
+              ))}
+            </tbody>
           </table>
 
           <div className="total-price">
             <table>
-              <tr>
-                <td>Subtotal</td>
-                <td>${getTotal()}</td>
-              </tr>
-              <tr>
-                <td>Tax</td>
-                <td>$50.00</td>
-              </tr>
-              <tr>
-                <td>Total</td>
-                <td>$250.00</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>Subtotal</td>
+                  <td>${parseFloat(getSubTotal()).toFixed(2)}</td>
+                </tr>
+                <tr>
+                  <td>Tax ( 7% )</td>
+                  <td>${parseFloat(getTax()).toFixed(2)}</td>
+                </tr>
+                <tr>
+                  <td>Total</td>
+                  <td>${parseFloat(getTotal()).toFixed(2)}</td>
+                </tr>
+              </tbody>
             </table>
           </div>
-        </div>
-
-        <hr />
-        <div className="row">
-          {items.map((product, index) => (
-            <div key={index} className="col-4 mb-3">
-              <Card
-                product={product}
-                showAddToCartButton={false}
-                cartUpdate={true}
-                showRemoveCartItemButton={true}
-                setRun={setRun}
-                run={run}
-              />
-            </div>
-          ))}
         </div>
       </div>
     );
@@ -101,14 +104,10 @@ const Cart = () => {
       description="Manage your cart items."
     >
       <div className="row">
-        <div className="col-12">
+        <div className="col-8">
           {items.length > 0 ? showItems(items) : noItemsMessage()}
         </div>
-      </div>
-      <div className="row">
-        <div className="col-12">
-          <h2 className="mb-4">Your Cart Summary</h2>
-          <hr />
+        <div className="col-4">
           <Checkout products={items} />
         </div>
       </div>

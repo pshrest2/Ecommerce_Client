@@ -21,43 +21,45 @@ const CartItems = ({ product, setRun = (f) => f, run = undefined }) => {
   };
 
   return (
-    <tr>
-      <td>
-        <div className="cart-info">
-          <Link to={`/product/${product._id}`}>
-            <div className="cart-img">
-              <img
-                alt={product.name}
-                src={`${API}/product/photo/${product._id}`}
-              />
+    <>
+      <tr>
+        <td>
+          <div className="cart-info">
+            <Link to={`/product/${product._id}`}>
+              <div className="cart-img">
+                <img
+                  alt={product.name}
+                  src={`${API}/product/photo/${product._id}`}
+                />
+              </div>
+            </Link>
+
+            <div>
+              <p>{product.name}</p>
+              <small>Price: ${product.price}</small>
+              <br />
+              <a
+                onClick={() => {
+                  removeItem(product._id);
+                  setRun(!run);
+                }}
+              >
+                Remove
+              </a>
             </div>
-          </Link>
-
-          <div>
-            <p>{product.name}</p>
-            <small>Price: ${product.price}</small>
-            <br />
-            <a
-              onClick={() => {
-                removeItem(product._id);
-                setRun(!run);
-              }}
-            >
-              Remove
-            </a>
           </div>
-        </div>
-      </td>
+        </td>
 
-      <td>
-        <input
-          type="number"
-          value={count}
-          onChange={handleChange(product._id)}
-        />
-      </td>
-      <td>${product.price * product.count}</td>
-    </tr>
+        <td>
+          <input
+            type="number"
+            value={count}
+            onChange={handleChange(product._id)}
+          />
+        </td>
+        <td>${parseFloat(product.price * product.count).toFixed(2)}</td>
+      </tr>
+    </>
   );
 };
 

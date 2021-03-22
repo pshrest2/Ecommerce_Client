@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getProducts, getBraintreeClientToken } from "./apiCore";
-
-import Layout from "./Layout";
-import Card from "./Card";
-import Search from "./Search";
+import { getBraintreeClientToken } from "./apiCore";
 import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
@@ -34,10 +30,18 @@ const Checkout = ({ products }) => {
     getToken(userId, token);
   }, []);
 
-  const getTotal = () => {
+  const getSubTotal = () => {
     return products.reduce((currentValue, nextValue) => {
       return currentValue + nextValue.count * nextValue.price;
     }, 0);
+  };
+
+  const getTax = () => {
+    return getSubTotal() * 0.07;
+  };
+
+  const getTotal = () => {
+    return getSubTotal() + getTax();
   };
 
   const showCheckout = () => {
@@ -83,7 +87,7 @@ const Checkout = ({ products }) => {
               options={{ authorization: data.clientToken }}
               onInstance={(instance) => (data.instance = instance)}
             />
-            <button onClick={checkout} className="btn btn-succcess">
+            <button onClick={checkout} className="btn btn-success">
               Checkout
             </button>
           </div>
@@ -104,10 +108,12 @@ const Checkout = ({ products }) => {
   };
 
   return (
-    <div>
-      <h2>Total: ${getTotal()}</h2>
-      {showError(data.error)}
-      {showCheckout()}
+    <div className="container">
+      <h2>Checkout</h2>
+      <div className="small-container cart-page">
+        {showError(data.error)}
+        {showCheckout()}
+      </div>
     </div>
   );
 };
