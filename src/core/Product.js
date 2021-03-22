@@ -5,6 +5,8 @@ import Layout from "./Layout";
 import Card from "./Card";
 import "./css/Product.css";
 
+import SingleProduct from "./SingleProduct";
+
 const Product = (props) => {
   const [product, setProduct] = useState({});
   const [relatedProduct, setRelatedProduct] = useState([]);
@@ -36,26 +38,27 @@ const Product = (props) => {
   }, [props]);
 
   return (
-    <Layout
-      className="container-fluid"
-      title={product && product.name}
-      description={
-        product && product.description && product.description.substring(0, 100)
-      }
-    >
+    <Layout className="container-fluid">
       <div className="row">
+        <div className="col-12 mt-5 mb-5">
+          <div className="container single-product">
+            {product && product.description && (
+              <SingleProduct product={product} />
+            )}
+          </div>
+        </div>
+      </div>
+      {/* <div className="row">
         <div className="col-12 mb-3">
           <div className="product">
             {product && product.description && <Card product={product} />}
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="row">
         <div className="col-12 mb-3">
           <div className="container">
-            <h4 className="mb-4" style={{ textAlign: "center" }}>
-              Related Products
-            </h4>
+            <h3 className="mb-5">Related Products</h3>
             <div className="row">
               {relatedProduct.map((product, index) => (
                 <div className="col-4 mb-3">

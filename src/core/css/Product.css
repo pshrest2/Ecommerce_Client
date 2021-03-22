@@ -6,3 +6,31 @@
   width: 100%;
   margin: 0 auto;
 }
+
+.single-product .col-6 img {
+  padding: 0;
+}
+
+.single-product .col-6 {
+  padding: 20px;
+}
+
+.single-product h4 {
+  margin: 20px 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.single-product input {
+  width: 50px;
+  height: 40px;
+  padding-left: 10px;
+  font-size: 20px;
+  margin-right: 10px;
+  border: 1px solid #000;
+}
+
+.single-product .fa {
+  margin-left: 10px;
+  font-size: 20px;
+}

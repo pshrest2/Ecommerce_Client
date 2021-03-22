@@ -108,7 +108,8 @@ const Cart = () => {
           {items.length > 0 ? showItems(items) : noItemsMessage()}
         </div>
         <div className="col-4">
-          <Checkout products={items} />
+          <h2>Checkout </h2>
+          {/* <Checkout products={items} /> */}
         </div>
       </div>
     </Layout>
