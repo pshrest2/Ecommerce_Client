@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getCategories, listProductsQueried } from "./apiCore";
 import Card from "./Card";
+import "./css/Search.css";
+import "./css/Card.css";
 
 const Search = () => {
   const [data, setData] = useState({
@@ -65,11 +67,13 @@ const Search = () => {
   };
 
   const searchedProduct = (results = []) => (
-    <div>
+    <div className="cards">
       <h4 className="mt-4 mb-4">{searchMessage(searched, results)}</h4>
       <div className="row">
         {results.map((product, index) => (
-          <Card key={index} product={product} />
+          <div key={index} className="col-4 mb-3">
+            <Card product={product} />
+          </div>
         ))}
       </div>
     </div>
@@ -77,10 +81,10 @@ const Search = () => {
 
   const searchForm = () => (
     <form onSubmit={searchSubmit}>
-      <span className="input-group-text">
+      <span className="input-group-text test">
         <div className="input-group input-group-lg">
-          <div className="input-group-append">
-            <select className="btn mr-2" onChange={handleChange("category")}>
+          <div className="input-group-append dropdown">
+            <select className="btn" onChange={handleChange("category")}>
               <option value="All">Pick a Category</option>
               {categories
                 .sort((a, b) => (a.name > b.name ? 1 : -1))
@@ -95,13 +99,15 @@ const Search = () => {
           <input
             onChange={handleChange("search")}
             type="search"
-            className="form-control"
+            className="form-control form_input"
             placeholder="Search by name"
           />
         </div>
 
         <div className="btn input-group-append">
-          <button className=" btn btn-warning">Search</button>
+          <button className="btn btn-warning">
+            <i class="fas fa-search"></i>
+          </button>
         </div>
       </span>
     </form>
@@ -109,8 +115,8 @@ const Search = () => {
 
   return (
     <div className="row">
-      <div className="container mb-5">{searchForm()}</div>
-      <div className="container-fluid mb-5">{searchedProduct(results)}</div>
+      <div className="container mb-2">{searchForm()}</div>
+      <div className="container-fluid mb-2">{searchedProduct(results)}</div>
     </div>
   );
 };

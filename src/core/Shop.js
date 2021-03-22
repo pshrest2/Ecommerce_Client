@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
 import Card from "./Card";
-import "./css/Home.css";
 import { getCategories, getFilteredProducts } from "./apiCore";
 import Checkbox from "./Checkbox";
 import RadioBox from "./RadioBox";
+import Search from "./Search";
 import { prices } from "./fixedPrices";
 
 const Shop = () => {
@@ -121,9 +121,10 @@ const Shop = () => {
 
         <div className="col-10">
           <h2 className="mb-4">Products</h2>
+          <Search />
           <div className="row">
             {filteredResults.map((product, index) => (
-              <div key={index} className="col-4 mb-3">
+              <div key={index} className="col-3 mb-3">
                 <Card product={product} />
               </div>
             ))}

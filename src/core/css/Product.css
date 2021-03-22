@@ -1,0 +1,8 @@
+.product {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  max-width: 820px;
+  width: 100%;
+  margin: 0 auto;
+}

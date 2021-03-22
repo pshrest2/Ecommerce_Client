@@ -3,6 +3,7 @@ import { getProduct, getRelatedProducts } from "./apiCore";
 
 import Layout from "./Layout";
 import Card from "./Card";
+import "./css/Product.css";
 
 const Product = (props) => {
   const [product, setProduct] = useState({});
@@ -43,16 +44,26 @@ const Product = (props) => {
       }
     >
       <div className="row">
-        <div className="col-6 mb-3">
-          {product && product.description && <Card product={product} />}
+        <div className="col-12 mb-3">
+          <div className="product">
+            {product && product.description && <Card product={product} />}
+          </div>
         </div>
-        <div className="col-6 mb-3">
-          <h4>Related Products</h4>
-          {relatedProduct.map((product, index) => (
-            <div className="mb-3">
-              <Card key={index} product={product} />
+      </div>
+      <div className="row">
+        <div className="col-12 mb-3">
+          <div className="container">
+            <h4 className="mb-4" style={{ textAlign: "center" }}>
+              Related Products
+            </h4>
+            <div className="row">
+              {relatedProduct.map((product, index) => (
+                <div className="col-4 mb-3">
+                  <Card key={index} product={product} />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </Layout>

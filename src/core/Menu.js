@@ -57,7 +57,7 @@ const Menu = ({ history }) => {
             <li className="nav-item">
               <Link
                 className="nav-links"
-                style={isActive(history, "/")}
+                style={isActive(history, "/shop")}
                 to="/shop"
                 onClick={closeMobileMenu}
               >
