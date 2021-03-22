@@ -42,7 +42,11 @@ const SingleProduct = ({ product, setRun = (f) => f, run = undefined }) => {
 
   const showProductQuantity = () => {
     if (product.quantity < 10) {
-      return <div>Only {product.quantity} items left!</div>;
+      return (
+        <div className="limitedProduct">
+          Only {product.quantity} items left!
+        </div>
+      );
     }
   };
 
