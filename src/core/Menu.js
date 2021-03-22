@@ -65,20 +65,6 @@ const Menu = ({ history }) => {
               </Link>
             </li>
 
-            <li className="nav-item">
-              <Link
-                className="nav-links"
-                style={isActive(history, "/cart")}
-                to="/cart"
-                onClick={closeMobileMenu}
-              >
-                Cart
-                <sup>
-                  <small className="cart-badge">{totalItems()}</small>
-                </sup>
-              </Link>
-            </li>
-
             {isAuthenticated() && isAuthenticated().user.role === 0 && (
               <li className="nav-item">
                 <Link
@@ -141,6 +127,20 @@ const Menu = ({ history }) => {
                 </span>
               </li>
             )}
+
+            <li className="nav-item">
+              <Link
+                className="nav-links"
+                style={isActive(history, "/cart")}
+                to="/cart"
+                onClick={closeMobileMenu}
+              >
+                <i class="fas fa-shopping-cart"></i>
+                <sup>
+                  <small className="cart-badge">{totalItems()}</small>
+                </sup>
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>

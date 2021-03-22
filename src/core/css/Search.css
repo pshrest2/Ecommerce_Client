@@ -19,7 +19,3 @@ textarea:focus,
 button:focus {
   outline: none !important;
 }
-
-input {
-  text-align: center;
-}

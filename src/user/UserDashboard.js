@@ -56,7 +56,7 @@ const Dashboard = () => {
   };
 
   return (
-    <Layout title="Dashboard" description={name} className="container-fluid">
+    <Layout title="Dashboard" description={name} className="container">
       <div className="row">
         <div className="col-3">{userlinks()}</div>
         <div className="col-9">
