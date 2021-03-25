@@ -8,7 +8,6 @@ import "./css/Button.css";
 import "./css/Cart.css";
 
 const CartItems = ({ product, setRun = (f) => f, run = undefined }) => {
-  const [redirect, setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
 
   const handleChange = (id) => (event) => {

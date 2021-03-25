@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getCartItems } from "./cartHelper";
-import { updateItem, removeItem } from "./cartHelper";
+import { updateItem } from "./cartHelper";
 import Layout from "./Layout";
-import Card from "./Card";
 import Checkout from "./Checkout";
 import CartItems from "./CartItems";
 
@@ -108,8 +107,7 @@ const Cart = () => {
           {items.length > 0 ? showItems(items) : noItemsMessage()}
         </div>
         <div className="col-4">
-          <h2>Checkout </h2>
-          {/* <Checkout products={items} /> */}
+          {items.length > 0 ? <Checkout products={items} /> : <></>}
         </div>
       </div>
     </Layout>
