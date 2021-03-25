@@ -106,7 +106,7 @@ const Search = () => {
 
         <div className="btn input-group-append">
           <button className="btn btn-warning">
-            <i class="fas fa-search"></i>
+            <i className="fas fa-search"></i>
           </button>
         </div>
       </span>

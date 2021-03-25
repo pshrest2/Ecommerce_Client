@@ -135,7 +135,7 @@ const Menu = ({ history }) => {
                 to="/cart"
                 onClick={closeMobileMenu}
               >
-                <i class="fas fa-shopping-cart"></i>
+                <i className="fas fa-shopping-cart"></i>
                 <sup>
                   <small className="cart-badge">{totalItems()}</small>
                 </sup>
