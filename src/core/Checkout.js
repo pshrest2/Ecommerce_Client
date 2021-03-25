@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { getBraintreeClientToken } from "./apiCore";
+import { getBraintreeClientToken, processPayment } from "./apiCore";
 import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
+import { emptyCart } from "./cartHelper";
+import "./css/Checkout.css";
 
 const Checkout = ({ products }) => {
   const [data, setData] = useState({
@@ -21,7 +23,7 @@ const Checkout = ({ products }) => {
       if (data.error) {
         setData({ ...data, error: data.error });
       } else {
-        setData({ ...data, clientToken: data.clientToken });
+        setData({ clientToken: data.clientToken });
       }
     });
   };
@@ -66,16 +68,41 @@ const Checkout = ({ products }) => {
         nonce = data.nonce;
         //once you have nonce(card type, number, etc.) send nonce as
         // 'paymentMethodNonce' and total to be charged to backend
-        console.log(
-          "send nonce and total to process:",
-          nonce,
-          getTotal(products)
-        );
+
+        // console.log(
+        //   "send nonce and total to process:",
+        //   nonce,
+        //   getTotal(products)
+        // );
+
+        const paymentData = {
+          paymentMethodNonce: nonce,
+          amount: parseFloat(getTotal(products)).toFixed(2),
+        };
+        processPayment(userId, token, paymentData)
+          .then((res) => {
+            console.log(res);
+            setData({ ...data, success: res.success });
+            //empty cart
+            emptyCart(() => {
+              setTimeout("location.reload(true)", 5000);
+            });
+            //create order
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         console.log("DropIn Error: ", error);
         setData({ ...data, error: error.message });
       });
+  };
+
+  const displayReload = (success) => {
+    if (success) {
+      return <div className="alert alert-info">Reloading...</div>;
+    }
   };
 
   const showDropIn = () => {
@@ -87,6 +114,7 @@ const Checkout = ({ products }) => {
               options={{ authorization: data.clientToken }}
               onInstance={(instance) => (data.instance = instance)}
             />
+
             <button onClick={checkout} className="btn btn-success">
               Checkout
             </button>
@@ -107,12 +135,25 @@ const Checkout = ({ products }) => {
     );
   };
 
+  const showSuccess = (success) => {
+    return (
+      <div
+        className="alert alert-info"
+        style={{ display: success ? "" : "none" }}
+      >
+        Payment was successful
+      </div>
+    );
+  };
+
   return (
     <div className="container">
       <h2>Checkout</h2>
       <div className="small-container cart-page">
+        {showSuccess(data.success)}
         {showError(data.error)}
         {showCheckout()}
+        {displayReload(data.success)}
       </div>
     </div>
   );
