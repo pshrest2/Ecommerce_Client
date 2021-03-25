@@ -4,7 +4,6 @@ import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
 import { emptyCart } from "./cartHelper";
-import "./css/Checkout.css";
 
 const Checkout = ({ products }) => {
   const [data, setData] = useState({
