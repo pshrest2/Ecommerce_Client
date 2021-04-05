@@ -64,6 +64,8 @@ const Checkout = ({ products }) => {
     setData({ ...data, address: event.target.value });
   };
 
+  let deliveryAddress = data.address;
+
   const checkout = () => {
     //send the nonce to your server
     //nonce = data.instance.requestPaymentMethod()
@@ -97,7 +99,7 @@ const Checkout = ({ products }) => {
               products: products,
               transaction_id: res.transaction.id,
               amount: res.transaction.amount,
-              address: data.address,
+              address: deliveryAddress,
             };
             createOrder(userId, token, createOrderData)
               .then((res) => {
