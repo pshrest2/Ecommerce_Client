@@ -206,7 +206,7 @@ const AddProduct = () => {
   return (
     <Layout title="Add a new product" description={`${user.name}`}>
       <div className="row">
-        <div className="col-md-8 offset-md-2">
+        <div className="col-md-4 offset-md-4">
           {showLoading()}
           {showSuccess()}
           {showError()}
