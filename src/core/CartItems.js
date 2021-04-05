@@ -7,15 +7,30 @@ import "./css/Card.css";
 import "./css/Button.css";
 import "./css/Cart.css";
 
-const CartItems = ({ product, setRun = (f) => f, run = undefined }) => {
+const CartItems = ({
+  product,
+  setRun = (f) => f,
+  run = undefined,
+  children,
+}) => {
   const [count, setCount] = useState(product.count);
 
-  const handleChange = (id) => (event) => {
+  const handleChange = (product) => (event) => {
     setRun(!run);
-    let count = event.target.value;
-    setCount(count < 1 ? 1 : count);
-    if (count >= 1) {
-      updateItem(id, count);
+    let countValue = event.target.value;
+
+    if (countValue > product.quantity) {
+      countValue = product.quantity;
+      setCount(product.quantity);
+    } else if (countValue < 1) {
+      countValue = 1;
+      setCount(1);
+    } else {
+      setCount(countValue);
+    }
+
+    if (countValue >= 1 && countValue <= product.quantity) {
+      updateItem(product._id, countValue);
     }
   };
 
@@ -50,13 +65,17 @@ const CartItems = ({ product, setRun = (f) => f, run = undefined }) => {
         </td>
 
         <td>
+          <div>{children}</div>
+
           <input
             type="number"
             value={count}
-            onChange={handleChange(product._id)}
+            min="1"
+            max={product.quantity}
+            onChange={handleChange(product)}
           />
         </td>
-        <td>${parseFloat(product.price * product.count).toFixed(2)}</td>
+        <td>${parseFloat(product.price * count).toFixed(2)}</td>
       </tr>
     </>
   );

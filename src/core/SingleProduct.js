@@ -52,7 +52,13 @@ const SingleProduct = ({ product, setRun = (f) => f, run = undefined }) => {
 
   const showUpdateCart = () => {
     return (
-      <input type="number" value={count} onChange={handleChange(product._id)} />
+      <input
+        type="number"
+        value={count}
+        min="0"
+        max={product.quantity}
+        onChange={handleChange(product._id)}
+      />
     );
   };
 

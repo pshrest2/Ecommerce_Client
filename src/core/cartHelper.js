@@ -91,3 +91,11 @@ export const emptyCart = (next) => {
     next();
   }
 };
+
+export const showProductQuantity = (product) => {
+  if (product.quantity < 10) {
+    return (
+      <div className="limitedProduct">Only {product.quantity} items left!</div>
+    );
+  }
+};

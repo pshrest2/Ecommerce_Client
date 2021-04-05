@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getCartItems } from "./cartHelper";
+import { getCartItems, showProductQuantity } from "./cartHelper";
 import { updateItem } from "./cartHelper";
 import Layout from "./Layout";
 import Checkout from "./Checkout";
@@ -15,17 +15,11 @@ const Cart = () => {
     setItems(getCartItems());
   }, [run]);
 
-  const handleChange = (id) => (event) => {
-    setRun(!run);
-    let count = event.target.value;
-    setCount(count < 1 ? 1 : count);
-    if (count >= 1) {
-      updateItem(id, count);
-    }
-  };
-
   const getSubTotal = () => {
     return items.reduce((currentValue, nextValue) => {
+      // console.log("Current value: ", currentValue);
+      // console.log("Next value: ", nextValue);
+
       return currentValue + nextValue.count * nextValue.price;
     }, 0);
   };
@@ -54,12 +48,9 @@ const Cart = () => {
             </thead>
             <tbody>
               {items.map((item, index) => (
-                <CartItems
-                  key={index}
-                  product={item}
-                  setRun={setRun}
-                  run={run}
-                />
+                <CartItems key={index} product={item} setRun={setRun} run={run}>
+                  {showProductQuantity(item)}
+                </CartItems>
               ))}
             </tbody>
           </table>
