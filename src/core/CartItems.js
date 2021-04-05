@@ -69,7 +69,7 @@ const CartItems = ({
 
           <input
             type="number"
-            value={count}
+            value={product.count}
             min="1"
             max={product.quantity}
             onChange={handleChange(product)}
