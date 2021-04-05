@@ -7,6 +7,7 @@ import { emptyCart } from "./cartHelper";
 
 const Checkout = ({ products }) => {
   const [data, setData] = useState({
+    loading: false,
     success: false,
     clientToken: null,
     error: "",
@@ -58,6 +59,7 @@ const Checkout = ({ products }) => {
   const checkout = () => {
     //send the nonce to your server
     //nonce = data.instance.requestPaymentMethod()
+    setData({ loading: true });
 
     let nonce;
     let getNonce = data.instance
@@ -85,11 +87,13 @@ const Checkout = ({ products }) => {
             //empty cart
             emptyCart(() => {
               setTimeout("location.reload(true)", 5000);
+              setData({ loading: false });
             });
             //create order
           })
           .catch((error) => {
             console.log(error);
+            setData({ loading: false });
           });
       })
       .catch((error) => {
@@ -98,11 +102,13 @@ const Checkout = ({ products }) => {
       });
   };
 
-  const displayReload = (success) => {
-    if (success) {
-      return <div className="alert alert-info">Reloading...</div>;
-    }
-  };
+  // const displayReload = (success) => {
+  //   if (success) {
+  //     return <div className="alert alert-info">Reloading...</div>;
+  //   }
+  // };
+
+  const showLoading = (loading) => loading && <h2>Loading...</h2>;
 
   const showDropIn = () => {
     return (
@@ -110,7 +116,12 @@ const Checkout = ({ products }) => {
         {data.clientToken !== null && products.length > 0 ? (
           <div>
             <DropIn
-              options={{ authorization: data.clientToken }}
+              options={{
+                authorization: data.clientToken,
+                paypal: {
+                  flow: "vault",
+                },
+              }}
               onInstance={(instance) => (data.instance = instance)}
             />
 
@@ -149,10 +160,11 @@ const Checkout = ({ products }) => {
     <div className="container">
       <h2>Checkout</h2>
       <div className="small-container cart-page">
+        {showLoading(data.loading)}
         {showSuccess(data.success)}
         {showError(data.error)}
         {showCheckout()}
-        {displayReload(data.success)}
+        {/* {displayReload(data.success)} */}
       </div>
     </div>
   );
