@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
-import { listOrders, getStatusValues } from "./apiAdmin";
+import { listOrders, getStatusValues, updateOrderStatus } from "./apiAdmin";
 import moment from "moment";
 
 const Orders = () => {
@@ -47,7 +47,15 @@ const Orders = () => {
   };
 
   const handleStatusChange = (event, orderId) => {
-    console.log("Update Order Status");
+    updateOrderStatus(user._id, token, orderId, event.target.value).then(
+      (data) => {
+        if (data.error) {
+          console.log("Status Update Failed");
+        } else {
+          loadOrders();
+        }
+      }
+    );
   };
 
   const showInput = (key, value) => (
@@ -66,7 +74,7 @@ const Orders = () => {
         className="form-control"
         onChange={(event) => handleStatusChange(event, order._id)}
       >
-        <option>Update Status</option>
+        <option disabled>Update Status</option>
         {statusValues.map((status, index) => (
           <option key={index} value={status}>
             {status}
