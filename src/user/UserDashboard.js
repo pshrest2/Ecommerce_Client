@@ -2,9 +2,10 @@ import React from "react";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
+
 const Dashboard = () => {
   const {
-    user: { name, email, role },
+    user: { _id, name, email, role },
   } = isAuthenticated();
 
   const userlinks = () => {
@@ -18,7 +19,7 @@ const Dashboard = () => {
             </Link>
           </li>
           <li className="list-group-item">
-            <Link className="nav-link" to="/profile/update">
+            <Link className="nav-link" to={`/profile/${_id}`}>
               Update Profile
             </Link>
           </li>
