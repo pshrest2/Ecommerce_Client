@@ -81,16 +81,18 @@ const Orders = () => {
                 </h3>
 
                 {order.products.map((product, productIndex) => {
-                  <div
-                    className="mb-4"
-                    key={productIndex}
-                    style={{ padding: "20px", border: "1px solid indigo" }}
-                  >
-                    {showInput("Product Name", product.name)}
-                    {showInput("Product Price", product.price)}
-                    {showInput("Product Count", product.count)}
-                    {showInput("Product Id", product._id)}
-                  </div>;
+                  return (
+                    <div
+                      className="mb-4"
+                      key={productIndex}
+                      style={{ padding: "20px", border: "1px solid indigo" }}
+                    >
+                      {showInput("Product Name", product.name)}
+                      {showInput("Product Price", product.price)}
+                      {showInput("Product Count", product.count)}
+                      {showInput("Product Id", product._id)}
+                    </div>
+                  );
                 })}
               </div>
             );
