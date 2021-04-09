@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { getProducts } from "./apiCore";
+import { isAuthenticated } from "../auth";
 
 import Layout from "./Layout";
 import Card from "./Card";
+import AdminCard from "./AdminCard";
 import Search from "./Search";
 
 import "./css/Home.css";
@@ -50,7 +52,15 @@ const Home = () => {
             <div className="row">
               {productsByArrival.map((product, index) => (
                 <div key={index} className="col-4 mb-3">
-                  <Card product={product} />
+                  {isAuthenticated() && isAuthenticated().user.role === 1 ? (
+                    <AdminCard
+                      product={product}
+                      loadArrival={loadProductsByArrival}
+                      loadSell={loadProductsBySell}
+                    />
+                  ) : (
+                    <Card product={product} />
+                  )}
                 </div>
               ))}
             </div>
@@ -65,7 +75,15 @@ const Home = () => {
             <div className="row">
               {productsByArrival.map((product, index) => (
                 <div key={index} className="col-4 mb-3">
-                  <Card product={product} />
+                  {isAuthenticated() && isAuthenticated().user.role === 1 ? (
+                    <AdminCard
+                      product={product}
+                      loadArrival={loadProductsByArrival}
+                      loadSell={loadProductsBySell}
+                    />
+                  ) : (
+                    <Card product={product} />
+                  )}
                 </div>
               ))}
             </div>
