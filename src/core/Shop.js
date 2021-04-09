@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
 import Card from "./Card";
+import AdminCard from "./AdminCard";
+import { isAuthenticated } from "../auth";
+
 import { getCategories, getFilteredProducts } from "./apiCore";
 import Checkbox from "./Checkbox";
 import RadioBox from "./RadioBox";
@@ -42,6 +45,7 @@ const Shop = () => {
       }
     });
   };
+
   const loadMore = () => {
     let totalSkip = skip + limit;
 
@@ -125,7 +129,11 @@ const Shop = () => {
           <div className="row">
             {filteredResults.map((product, index) => (
               <div key={index} className="col-3 mb-3">
-                <Card product={product} />
+                {isAuthenticated() && isAuthenticated().user.role === 1 ? (
+                  <AdminCard product={product} />
+                ) : (
+                  <Card product={product} />
+                )}
               </div>
             ))}
           </div>

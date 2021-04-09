@@ -20,8 +20,8 @@ const AdminCard = ({ product, loadArrival, loadSell }) => {
         console.log(data.error);
       } else {
         //Update parent parent component's setProductsByArrival to true
-        loadArrival();
-        loadSell();
+        loadArrival ? loadArrival() : window.location.reload();
+        loadSell ? loadSell() : window.location.reload();
       }
     });
   };
