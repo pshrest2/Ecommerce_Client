@@ -103,11 +103,9 @@ const UpdateProduct = ({ match }) => {
             loading: false,
             error: "",
             formData: new FormData(),
+            redirectToProfile: true,
             createdProduct: data.name,
           });
-
-          document.getElementById("selectCategory").selectedIndex = 0;
-          document.getElementById("selectShipping").selectedIndex = 0;
         }
       }
     );
@@ -227,10 +225,17 @@ const UpdateProduct = ({ match }) => {
       </div>
     );
 
+  const willRedirect = (redirect) => {
+    if (redirect) {
+      return <Redirect to="/" />;
+    }
+  };
+
   return (
-    <Layout title="Add a new product" description={`${user.name}`}>
+    <Layout title="Update Product" description={`${user.name}`}>
       <div className="row">
         <div className="col-md-4 offset-md-4">
+          {willRedirect(redirectToProfile)}
           {showLoading()}
           {showSuccess()}
           {showError()}
