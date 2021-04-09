@@ -14,7 +14,6 @@ import Product from "./core/Product";
 import Cart from "./core/Cart";
 import Orders from "./admin/Orders";
 import Profile from "./user/Profile";
-import ManageProducts from "./admin/ManageProducts";
 import UpdateProduct from "./admin/UpdateProduct";
 
 const Routes = () => {
@@ -29,7 +28,6 @@ const Routes = () => {
         <Route path="/cart" exact component={Cart} />
         <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
         <PrivateRoute path="/profile/:userId" exact component={Profile} />
-        <AdminRoute path="/admin/products" exact component={ManageProducts} />
         <AdminRoute
           path="/admin/product/update/:productId"
           exact
