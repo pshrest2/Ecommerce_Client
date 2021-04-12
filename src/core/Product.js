@@ -24,7 +24,6 @@ const Product = (props) => {
           if (data.error) {
             setError(error);
           } else {
-            console.log(data);
             setRelatedProduct(data);
           }
         });
@@ -61,8 +60,8 @@ const Product = (props) => {
             <h3 className="mb-5">Related Products</h3>
             <div className="row">
               {relatedProduct.map((product, index) => (
-                <div className="col-4 mb-3">
-                  <Card key={index} product={product} />
+                <div key={index} className="col-4 mb-3">
+                  <Card product={product} />
                 </div>
               ))}
             </div>
