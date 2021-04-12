@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { findOrder } from "./apiAdmin";
 import { isAuthenticated } from "../auth";
+import Layout from "../core/Layout";
+import { Link } from "react-router-dom";
+import { API } from "../config";
 
 const SingleOrder = (props) => {
   const [order, setOrder] = useState({});
   const [error, setError] = useState(false);
   const { user, token } = isAuthenticated();
-
-  const showInput = (key, value) => (
-    <div className="input-group mb-2 mr-sm-2">
-      <div className="input-group-prepend">
-        <div className="input-group-text">{key}</div>
-      </div>
-      <input type="text" value={value} className="form-control" readOnly />
-    </div>
-  );
 
   const loadSingleOrder = (orderId, token) => {
     findOrder(user._id, orderId, token).then((data) => {
@@ -34,22 +28,57 @@ const SingleOrder = (props) => {
 
   return (
     <>
-      {order.products
-        ? order.products.map((product, productIndex) => {
-            return (
-              <div
-                className="mb-4"
-                key={productIndex}
-                style={{ padding: "20px", border: "1px solid indigo" }}
-              >
-                {showInput("Product Name", product.name)}
-                {showInput("Product Price", product.price)}
-                {showInput("Product Count", product.count)}
-                {showInput("Product Id", product._id)}
-              </div>
-            );
-          })
-        : null}
+      <Layout
+        className="container-fluid"
+        title="Order"
+        description="List of orders"
+      >
+        <div className="container">
+          <div className="small-container cart-page">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product Image</th>
+                  <th>Product Name</th>
+                  <th>Product Price</th>
+                  <th>Product Count</th>
+                  {/* <th>Product Id</th> */}
+                </tr>
+              </thead>
+              <tbody>
+                {order.products
+                  ? order.products.map((product, productIndex) => {
+                      return (
+                        <tr key={productIndex}>
+                          <td>
+                            <Link to={`/product/${product._id}`}>
+                              <div className="cart-img">
+                                <img
+                                  alt={product.name}
+                                  src={`${API}/product/photo/${product._id}`}
+                                />
+                              </div>
+                            </Link>
+                          </td>
+                          <td>{product.name}</td>
+                          <td>${product.price}</td>
+                          <td>
+                            <input
+                              type="number"
+                              value={product.count}
+                              readOnly
+                            />
+                          </td>
+                          {/* <td>{product._id}</td> */}
+                        </tr>
+                      );
+                    })
+                  : null}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </Layout>
     </>
   );
 };
