@@ -63,6 +63,22 @@ export const listOrders = (userId, token) => {
     });
 };
 
+export const findOrder = (userId, orderId, token) => {
+  return fetch(`${API}/order/${orderId}/${userId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export const getStatusValues = (userId, token) => {
   return fetch(`${API}/order/status-values/${userId}`, {
     method: "GET",
