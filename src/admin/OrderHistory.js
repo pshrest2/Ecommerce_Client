@@ -104,7 +104,10 @@ const OrderHistory = () => {
                   </td>
                   <td>{order.user.name}</td>
                   <td>{moment(order.createdAt).fromNow()}</td>
-                  <td>{order.address}</td>
+                  <td>
+                    {order.address1},{order.address2},{order.city},{order.state}
+                    ,{order.zip}
+                  </td>
                   <td>${order.amount}</td>
                   <td>{showStatus(order)}</td>
                 </tr>

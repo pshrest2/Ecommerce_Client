@@ -8,6 +8,7 @@ import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
 import { emptyCart } from "./cartHelper";
+import "./css/address.css";
 
 const Checkout = ({ products }) => {
   const [data, setData] = useState({
@@ -16,7 +17,11 @@ const Checkout = ({ products }) => {
     clientToken: null,
     error: "",
     instance: {},
-    address: "",
+    address1: " ",
+    address2: " ",
+    city: " ",
+    state: "MS",
+    zipCode: " ",
   });
 
   const userId = isAuthenticated() && isAuthenticated().user._id;
@@ -60,11 +65,42 @@ const Checkout = ({ products }) => {
     );
   };
 
-  const handleAddress = (event) => {
-    setData({ ...data, address: event.target.value });
+  const handleAddress1 = (event) => {
+    setData({
+      ...data,
+      address1: event.target.value,
+    });
+  };
+  const handleAddress2 = (event) => {
+    setData({
+      ...data,
+      address2: event.target.value,
+    });
+  };
+  const handleCity = (event) => {
+    setData({
+      ...data,
+      city: event.target.value,
+    });
+  };
+  const handleState = (event) => {
+    setData({
+      ...data,
+      state: event.target.value,
+    });
+  };
+  const handleZipCode = (event) => {
+    setData({
+      ...data,
+      zipCode: event.target.value,
+    });
   };
 
-  let deliveryAddress = data.address;
+  let delivery_address1 = data.address1;
+  let delivery_address2 = data.address2;
+  let delivery_city = data.city;
+  let delivery_state = data.state;
+  let delivery_zip = data.zipCode;
 
   const checkout = () => {
     //send the nonce to your server
@@ -99,7 +135,11 @@ const Checkout = ({ products }) => {
               products: products,
               transaction_id: res.transaction.id,
               amount: res.transaction.amount,
-              address: deliveryAddress,
+              address1: delivery_address1,
+              address2: delivery_address2,
+              city: delivery_city,
+              state: delivery_state,
+              zip: delivery_zip,
             };
             createOrder(userId, token, createOrderData)
               .then((res) => {
@@ -142,13 +182,58 @@ const Checkout = ({ products }) => {
         {data.clientToken !== null && products.length > 0 ? (
           <div>
             <div className="gorm-group mb-3">
-              <label className="text-muted">Delivery Address:</label>
+              {/* <label className="text-muted">Delivery Address:</label>
               <textarea
                 onChange={handleAddress}
                 className="form-control"
                 value={data.address}
                 placeholder="Type your delivery address here..."
+              /> */}
+              <label className="text-muted">Address Line 1:</label>
+              <input
+                onChange={handleAddress1}
+                className="form-control"
+                value={data.address1 || ""}
+                placeholder="Enter Address Line 1"
               />
+              <label className="text-muted">Address Line 2:</label>
+              <input
+                onChange={handleAddress2}
+                className="form-control"
+                value={data.address2 || ""}
+                placeholder="Enter Address Line 2"
+              />
+              <div className="row">
+                <div className="col-4">
+                  <label className="text-muted">City:</label>
+                  <input
+                    onChange={handleCity}
+                    className="form-control city"
+                    value={data.city || ""}
+                    placeholder="City"
+                  />
+                </div>
+                <div className="col-4">
+                  <label className="text-muted">State:</label>
+                  <input
+                    onChange={handleState}
+                    className="form-control state"
+                    value={data.state || ""}
+                    placeholder="MS"
+                    readOnly
+                  />
+                </div>
+                <div className="col-4">
+                  <label className="text-muted">Zip Code:</label>
+                  <input
+                    type="text"
+                    onChange={handleZipCode}
+                    className="form-control zip"
+                    value={data.zipCode || ""}
+                    placeholder="5 Digit Number"
+                  />
+                </div>
+              </div>
             </div>
 
             <DropIn

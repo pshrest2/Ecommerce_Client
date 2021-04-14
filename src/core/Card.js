@@ -46,7 +46,11 @@ const Card = ({
     return (
       showAddToCartButton && (
         <button
-          onClick={addToCart}
+          // onClick={addToCart}
+          onClick={() => {
+            addToCart();
+            setRun(!run);
+          }}
           className="btn btn-outline-warning mt-2 mb-2"
         >
           Add to Cart
