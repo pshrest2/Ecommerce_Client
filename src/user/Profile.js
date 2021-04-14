@@ -9,11 +9,12 @@ const Profile = ({ match }) => {
     name: "",
     email: "",
     password: "",
+    password_again: "",
     error: false,
     success: false,
   });
 
-  const { name, email, password, error, success } = values;
+  const { name, email, password, password_again, error, success } = values;
   const { token } = isAuthenticated();
 
   const init = (userId) => {
@@ -36,23 +37,37 @@ const Profile = ({ match }) => {
 
   const clickSubmit = (event) => {
     event.preventDefault();
-    update(match.params.userId, token, { name, email, password }).then(
-      (data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          updateUser(data, () => {
-            setValues({
-              ...values,
-              name: data.name,
-              email: data.email,
-              success: true,
+    if (password === password_again) {
+      update(match.params.userId, token, { name, email, password }).then(
+        (data) => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            console.log(data);
+            updateUser(data, () => {
+              setValues({
+                ...values,
+                name: data.name,
+                email: data.email,
+                success: true,
+              });
             });
-          });
+          }
         }
-      }
-    );
+      );
+    } else {
+      setValues({ ...values, error: true });
+    }
   };
+
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: error ? "" : "none" }}
+    >
+      Passwords Must Match
+    </div>
+  );
 
   const redirectUser = (success) => {
     if (success) {
@@ -61,7 +76,7 @@ const Profile = ({ match }) => {
   };
 
   const profileUpdate = (name, email, password) => (
-    <form className="container">
+    <form>
       <div className="form-group">
         <label className="text-muted">Name</label>
         <input
@@ -89,6 +104,15 @@ const Profile = ({ match }) => {
           onChange={handleChange("password")}
         />
       </div>
+      <div className="form-group">
+        <label className="text-muted">Re-Enter Password</label>
+        <input
+          className="form-control"
+          type="password"
+          value={password_again}
+          onChange={handleChange("password_again")}
+        />
+      </div>
 
       <button className="btn btn-primary" onClick={clickSubmit}>
         Submit
@@ -98,11 +122,12 @@ const Profile = ({ match }) => {
 
   return (
     <Layout
-      className="container-fluid"
+      className="container col-sm-4 offset-sm-4"
       title="Profile"
       description="Update Your Profile"
     >
       <h2 className="mb-4">Profile Update</h2>
+      {showError()}
       {profileUpdate(name, email, password)}
       {redirectUser(success)}
     </Layout>
