@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { findOrder } from "./apiAdmin";
+import { findOrder } from "../admin/apiAdmin";
 import { isAuthenticated } from "../auth";
-import Layout from "../core/Layout";
+import Layout from "./Layout";
 import { Link } from "react-router-dom";
 import { API } from "../config";
 

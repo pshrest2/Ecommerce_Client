@@ -34,6 +34,22 @@ export const getPurchaseHistory = (userId, token) => {
     });
 };
 
+export const findOrder = (userId, orderId, token) => {
+  return fetch(`${API}/order-user/${orderId}/${userId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export const update = (userId, token, userData) => {
   return fetch(`${API}/user/${userId}`, {
     method: "PUT",

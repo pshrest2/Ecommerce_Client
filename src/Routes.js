@@ -13,12 +13,14 @@ import AddProduct from "./admin/AddProduct";
 import Shop from "./core/Shop";
 import Product from "./core/Product";
 import Cart from "./core/Cart";
-import Orders from "./admin/Orders";
+import Orders from "./core/Orders";
 import OrderHistory from "./admin/OrderHistory";
-import SingleOrder from "./admin/SingleOrder";
+import SingleOrder from "./core/SingleOrder";
+import SingleOrderUser from "./user/SingleOrder";
 import Profile from "./user/Profile";
 import UpdateProduct from "./admin/UpdateProduct";
 import Categories from "./admin/Categories";
+import UserHistory from "./user/UserHistory";
 
 const Routes = () => {
   return (
@@ -32,6 +34,12 @@ const Routes = () => {
         <Route path="/cart" exact component={Cart} />
         <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
         <PrivateRoute path="/profile/:userId" exact component={Profile} />
+        <PrivateRoute path="/user/orderhistory" exact component={UserHistory} />
+        <PrivateRoute
+          path="/user/orderhistory/:orderId"
+          exact
+          component={SingleOrderUser}
+        />
         <AdminRoute
           path="/admin/product/update/:productId"
           exact
