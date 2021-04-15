@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getCartItems, showProductQuantity } from "./cartHelper";
-import { updateItem } from "./cartHelper";
 import Layout from "./Layout";
 import Checkout from "./Checkout";
 import CartItems from "./CartItems";
@@ -9,7 +8,6 @@ import CartItems from "./CartItems";
 const Cart = () => {
   const [items, setItems] = useState([]);
   const [run, setRun] = useState(false);
-  const [count, setCount] = useState(1);
 
   useEffect(() => {
     setItems(getCartItems());

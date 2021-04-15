@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
-import { isAuthenticated } from "../auth";
 import { getCategories, deleteCategory } from "./apiAdmin";
 import { Link } from "react-router-dom";
 
+import { isAuthenticated } from "../auth";
+const { user, token } = isAuthenticated();
+
 const Categories = () => {
   const [categories, setCategories] = useState([]);
-
-  const { user, token } = isAuthenticated();
 
   const loadCategories = () => {
     getCategories().then((data) => {
@@ -19,9 +19,19 @@ const Categories = () => {
     });
   };
 
+  const delCategory = (categoryId) => {
+    deleteCategory(categoryId, user._id, token).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        loadCategories();
+      }
+    });
+  };
+
   useEffect(() => {
     loadCategories();
-  }, [categories]);
+  }, []);
 
   const showCategoriesLength = () => {
     if (categories.length > 0) {
@@ -56,17 +66,24 @@ const Categories = () => {
               {categories.map((category, index) => (
                 <tr key={index}>
                   <td>
-                    <Link to={`/update/category/${category._id}`}>Edit</Link>
+                    <div className="cart-info">
+                      <Link to={`/update/category/${category._id}`}>Edit</Link>
+                    </div>
                   </td>
-                  <td>{category.name}</td>
                   <td>
-                    <a
-                      onClick={() => {
-                        deleteCategory(category._id, user._id, token);
-                      }}
-                    >
-                      Delete
-                    </a>
+                    <div className="cart-info">{category.name}</div>
+                  </td>
+
+                  <td>
+                    <div className="cart-info">
+                      <a
+                        onClick={() => {
+                          delCategory(category._id, user._id, token);
+                        }}
+                      >
+                        Delete
+                      </a>
+                    </div>
                   </td>
                 </tr>
               ))}
