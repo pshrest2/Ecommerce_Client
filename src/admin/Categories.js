@@ -48,7 +48,7 @@ const Categories = () => {
   return (
     <Layout
       className="container-fluid"
-      title="Order"
+      title="Categories"
       description="List of Categories to Update/Delete"
     >
       <div className="container">
