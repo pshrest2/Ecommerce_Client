@@ -29,6 +29,7 @@ th {
 
 td {
   padding: 10px 5px;
+  text-align: left;
 }
 
 td input {
@@ -67,11 +68,4 @@ img:hover {
   border-top: 3px solid #ff523b;
   width: 100%;
   max-width: 400px;
-}
-
-td:last-child {
-  text-align: right;
-}
-td:last-child {
-  text-align: right;
 }

@@ -15,7 +15,7 @@ import Product from "./core/Product";
 import Cart from "./core/Cart";
 import Orders from "./core/Orders";
 import OrderHistory from "./admin/OrderHistory";
-import SingleOrder from "./core/SingleOrder";
+import SingleOrder from "./admin/SingleOrder";
 import SingleOrderUser from "./user/SingleOrder";
 import Profile from "./user/Profile";
 import UpdateProduct from "./admin/UpdateProduct";

@@ -42,7 +42,6 @@ const SingleOrder = (props) => {
                   <th>Product Name</th>
                   <th>Product Price</th>
                   <th>Product Count</th>
-                  {/* <th>Product Id</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -62,14 +61,7 @@ const SingleOrder = (props) => {
                           </td>
                           <td>{product.name}</td>
                           <td>${product.price}</td>
-                          <td>
-                            <input
-                              type="number"
-                              value={product.count}
-                              readOnly
-                            />
-                          </td>
-                          {/* <td>{product._id}</td> */}
+                          <td>{product.count}</td>
                         </tr>
                       );
                     })

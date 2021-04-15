@@ -86,21 +86,20 @@ const OrderHistory = () => {
           <table>
             <thead>
               <tr>
-                <th>Transaction Id</th>
+                <th></th>
                 <th>Customer Name</th>
                 <th>Date Purchased</th>
                 <th>Delivery Address</th>
                 <th>Total</th>
                 <th>Status</th>
+                {/* <th>Transaction Id</th> */}
               </tr>
             </thead>
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
                   <td>
-                    <Link to={`/admin/orderhistory/${order._id}`}>
-                      {order.transaction_id}
-                    </Link>
+                    <Link to={`/admin/orderhistory/${order._id}`}>View</Link>
                   </td>
                   <td>{order.user.name}</td>
                   <td>{moment(order.createdAt).fromNow()}</td>
@@ -110,6 +109,7 @@ const OrderHistory = () => {
                   </td>
                   <td>${order.amount}</td>
                   <td>{showStatus(order)}</td>
+                  {/* <td>{order.transaction_id}</td> */}
                 </tr>
               ))}
             </tbody>

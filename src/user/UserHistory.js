@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 
 const UserHistory = () => {
   const [orders, setOrders] = useState([]);
-  const [statusValues, setStatusValues] = useState([]);
-
   const { user, token } = isAuthenticated();
 
   const loadOrders = () => {
@@ -37,20 +35,6 @@ const UserHistory = () => {
     }
   };
 
-  //   const showStatus = (order) => (
-  //     <select
-  //       className="form-control"
-  //       onChange={(event) => handleStatusChange(event, order._id)}
-  //     >
-  //       <option disabled>Update Status</option>
-  //       {statusValues.map((status, index) => (
-  //         <option key={index} value={status}>
-  //           {status}
-  //         </option>
-  //       ))}
-  //     </select>
-  //   );
-
   return (
     <Layout
       className="container-fluid"
@@ -63,28 +47,30 @@ const UserHistory = () => {
           <table>
             <thead>
               <tr>
-                <th>Transaction Id</th>
-                <th>Customer Name</th>
+                <th></th>
+                {/* <th>Customer Name</th> */}
                 <th>Date Purchased</th>
-                <th>Delivery Address</th>
+                {/* <th>Delivery Address</th> */}
                 <th>Total</th>
+                <th>Status</th>
+                <th>Transaction ID</th>
               </tr>
             </thead>
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
                   <td>
-                    <Link to={`/user/orderhistory/${order._id}`}>
-                      {order.transaction_id}
-                    </Link>
+                    <Link to={`/user/orderhistory/${order._id}`}>View</Link>
                   </td>
-                  <td>{order.user.name}</td>
+                  {/* <td>{order.user.name}</td> */}
                   <td>{moment(order.createdAt).fromNow()}</td>
-                  <td>
+                  {/* <td>
                     {order.address1},{order.address2},{order.city},{order.state}
                     ,{order.zip}
-                  </td>
+                  </td> */}
                   <td>${order.amount}</td>
+                  <td>{order.status}</td>
+                  <td>{order.transaction_id}</td>
                 </tr>
               ))}
             </tbody>

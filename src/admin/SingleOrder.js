@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { findOrder } from "../admin/apiAdmin";
+import { findOrder } from "./apiAdmin";
 import { isAuthenticated } from "../auth";
-import Layout from "./Layout";
+import Layout from "../core/Layout";
 import { Link } from "react-router-dom";
 import { API } from "../config";
 
@@ -62,13 +62,7 @@ const SingleOrder = (props) => {
                           </td>
                           <td>{product.name}</td>
                           <td>${product.price}</td>
-                          <td>
-                            <input
-                              type="number"
-                              value={product.count}
-                              readOnly
-                            />
-                          </td>
+                          <td>{product.count}</td>
                           {/* <td>{product._id}</td> */}
                         </tr>
                       );
