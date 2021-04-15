@@ -62,6 +62,7 @@ const SingleProduct = ({ product, setRun = (f) => f, run = undefined }) => {
           min="0"
           max={product.quantity}
           onChange={handleChange(product._id)}
+          style={{ width: "80px", padding: "10px" }}
         />
       );
     }
