@@ -70,10 +70,20 @@ const SingleProduct = ({ product, setRun = (f) => f, run = undefined }) => {
 
   const handleChange = (id) => (event) => {
     setRun(!run);
-    let count = event.target.value;
-    setCount(count < 1 ? 1 : count);
-    if (count >= 1) {
-      updateItem(id, count);
+    let countValue = event.target.value;
+
+    if (countValue > product.quantity) {
+      countValue = product.quantity;
+      setCount(product.quantity);
+    } else if (countValue < 1) {
+      countValue = 1;
+      setCount(1);
+    } else {
+      setCount(countValue);
+    }
+
+    if (countValue >= 1 && countValue <= product.quantity) {
+      updateItem(product._id, countValue);
     }
   };
 
