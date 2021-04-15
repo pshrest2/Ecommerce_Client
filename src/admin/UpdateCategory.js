@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
-import { deleteCategory, updateCategory, getCategory } from "./apiAdmin";
+import { updateCategory, getCategory } from "./apiAdmin";
 
 const UpdateCategory = (props) => {
-  const [category, setCategory] = useState();
+  const [name, setName] = useState({});
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -17,7 +17,7 @@ const UpdateCategory = (props) => {
       if (data.error) {
         console.log(data.error);
       } else {
-        setCategory(data.name);
+        setName(data.name);
       }
     });
   };
@@ -30,7 +30,7 @@ const UpdateCategory = (props) => {
   const handleChange = (event) => {
     setError("");
     setSuccess(false);
-    setCategory(event.target.value);
+    setName(event.target.value || "");
   };
 
   const cilckSubmit = (event) => {
@@ -39,7 +39,9 @@ const UpdateCategory = (props) => {
     setSuccess(false);
 
     // make request to api category
-    updateCategory(category._id, user._id, token, { category }).then((data) => {
+    updateCategory(props.match.params.categoryId, user._id, token, {
+      name,
+    }).then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
@@ -58,7 +60,7 @@ const UpdateCategory = (props) => {
             type="text"
             className="form-control"
             onChange={handleChange}
-            value={category}
+            value={name || ""}
             autoFocus
             required
           />
@@ -71,7 +73,7 @@ const UpdateCategory = (props) => {
 
   const showSuccess = () => {
     if (success) {
-      return <h3 className="text-success">{category} is updated</h3>;
+      return <h3 className="text-success">Category is updated</h3>;
     }
   };
 
@@ -83,7 +85,7 @@ const UpdateCategory = (props) => {
 
   const goBack = () => (
     <div className="container mt-5">
-      <Link to="/update/categories" className="text-warning">
+      <Link to="/update/category" className="text-warning">
         Back to Categories
       </Link>
     </div>
