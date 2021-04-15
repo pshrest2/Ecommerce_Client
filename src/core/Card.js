@@ -16,24 +16,27 @@ const Card = ({
   run = undefined,
 }) => {
   const [redirect, setRedirect] = useState(false);
-  const [count, setCount] = useState(product.count);
+  const [error, setError] = useState(false);
 
   const showProductStock = (quantity) => {
     return quantity > 0 ? (
-      <span className="badge badge-primary padge-pill stockValue">
-        In Stock
-      </span>
+      <span className="badge badge-primary">In Stock</span>
     ) : (
-      <span className="badge badge-primary padge-pill stockValue">
-        Out of Stock
-      </span>
+      <span className="badge badge-danger">Out of Stock</span>
     );
   };
 
   const addToCart = () => {
-    addItem(product, () => {
-      setRedirect(true);
-    });
+    if (product.quantity > 0) {
+      addItem(product, () => {
+        setRedirect(true);
+      });
+    } else {
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 3000);
+    }
   };
 
   const willRedirect = (redirect) => {
@@ -59,56 +62,22 @@ const Card = ({
     );
   };
 
-  const showRemoveCartItem = (showRemoveCartItemButton) => {
-    return (
-      showRemoveCartItemButton && (
-        <button
-          onClick={() => {
-            removeItem(product._id);
-            setRun(!run);
-          }}
-          className="btn btn-outline-danger mt-2 mb-2"
-        >
-          Remove Item
-        </button>
-      )
-    );
-  };
-
-  const showUpdateCart = (cartUpdate) => {
-    return (
-      cartUpdate && (
-        <div>
-          <div className="input-group mb-3">
-            <div className="input-group-prepend0">
-              <span className="input-group-text">Adjust Quantity</span>
-            </div>
-            <input
-              type="number"
-              className="form-control"
-              value={count}
-              onChange={handleChange(product._id)}
-            />
-          </div>
-        </div>
-      )
-    );
-  };
-
-  const handleChange = (id) => (event) => {
-    setRun(!run);
-    let count = event.target.value;
-    setCount(count < 1 ? 1 : count);
-    if (count >= 1) {
-      updateItem(id, count);
-    }
-  };
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      id="error"
+      style={{ display: error ? "" : "none" }}
+    >
+      Product is out of stock
+    </div>
+  );
 
   return (
     <>
       <Link className="cards__item__link" to={`/product/${product._id}`}>
         <div className="cards__item__info">
           {willRedirect(redirect)}
+          {showError()}
           <ShowImage item={product} url="product" />
           <h5 className="cards__item__text">{product.name}</h5>
           <p className="cards__item__text_description">
@@ -120,8 +89,6 @@ const Card = ({
         </div>
       </Link>
       {showAddToCart(showAddToCartButton)}
-      {showUpdateCart(cartUpdate)}
-      {showRemoveCartItem(showRemoveCartItemButton)}
     </>
   );
 };

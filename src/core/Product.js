@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { getProduct, getRelatedProducts } from "./apiCore";
 
 import Layout from "./Layout";
+import AdminCard from "./AdminCard";
 import Card from "./Card";
 import "./css/Product.css";
+import { isAuthenticated } from "../auth";
 
 import SingleProduct from "./SingleProduct";
+import AdminSingleProduct from "./AdminSingleProduct";
 
 const Product = (props) => {
   const [product, setProduct] = useState({});
@@ -41,19 +44,17 @@ const Product = (props) => {
       <div className="row">
         <div className="col-12 mt-5 mb-5">
           <div className="container single-product">
-            {product && product.description && (
-              <SingleProduct product={product} />
-            )}
+            {product && product.description ? (
+              isAuthenticated() && isAuthenticated().user.role === 1 ? (
+                <AdminSingleProduct product={product} />
+              ) : (
+                <SingleProduct product={product} />
+              )
+            ) : null}
           </div>
         </div>
       </div>
-      {/* <div className="row">
-        <div className="col-12 mb-3">
-          <div className="product">
-            {product && product.description && <Card product={product} />}
-          </div>
-        </div>
-      </div> */}
+
       <div className="row">
         <div className="col-12 mb-3">
           <div className="container">
@@ -61,7 +62,11 @@ const Product = (props) => {
             <div className="row">
               {relatedProduct.map((product, index) => (
                 <div key={index} className="col-4 mb-3">
-                  <Card product={product} />
+                  {isAuthenticated() && isAuthenticated().user.role === 1 ? (
+                    <AdminCard product={product} />
+                  ) : (
+                    <Card product={product} />
+                  )}
                 </div>
               ))}
             </div>

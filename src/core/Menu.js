@@ -4,7 +4,6 @@ import { signout, isAuthenticated } from "../auth";
 import { totalItems } from "./cartHelper";
 
 import "./css/Menu.css";
-
 const isActive = (history, path) => {
   if (history.location.pathname === path) return { color: "#ff9900" };
   else return { color: "#ffffff" };
@@ -128,19 +127,21 @@ const Menu = ({ history }) => {
               </li>
             )}
 
-            <li className="nav-item">
-              <Link
-                className="nav-links"
-                style={isActive(history, "/cart")}
-                to="/cart"
-                onClick={closeMobileMenu}
-              >
-                <i className="fas fa-shopping-cart"></i>
-                <sup>
-                  <small className="cart-badge">{totalItems()}</small>
-                </sup>
-              </Link>
-            </li>
+            {isAuthenticated() && isAuthenticated().user.role === 0 && (
+              <li className="nav-item">
+                <Link
+                  className="nav-links"
+                  style={isActive(history, "/cart")}
+                  to="/cart"
+                  onClick={closeMobileMenu}
+                >
+                  <i className="fas fa-shopping-cart"></i>
+                  <sup>
+                    <small className="cart-badge">{totalItems()}</small>
+                  </sup>
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </nav>

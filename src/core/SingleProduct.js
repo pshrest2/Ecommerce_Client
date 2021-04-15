@@ -1,29 +1,32 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { addItem, updateItem } from "./cartHelper";
-import moment from "moment";
 import { API } from "../config";
 
 const SingleProduct = ({ product, setRun = (f) => f, run = undefined }) => {
   const [redirect, setRedirect] = useState(false);
-  const [count, setCount] = useState(product.count);
+  const [count, setCount] = useState(product.count || 1);
+  const [error, setError] = useState(false);
 
   const showProductStock = (quantity) => {
     return quantity > 0 ? (
-      <span className="badge badge-primary padge-pill stockValue">
-        In Stock
-      </span>
+      <span className="badge badge-primary">In Stock</span>
     ) : (
-      <span className="badge badge-primary padge-pill stockValue">
-        Out of Stock
-      </span>
+      <span className="badge badge-danger">Out of Stock</span>
     );
   };
 
   const addToCart = () => {
-    addItem(product, () => {
-      setRedirect(true);
-    });
+    if (product.quantity > 0) {
+      addItem(product, () => {
+        setRedirect(true);
+      });
+    } else {
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 3000);
+    }
   };
 
   const willRedirect = (redirect) => {
@@ -41,7 +44,7 @@ const SingleProduct = ({ product, setRun = (f) => f, run = undefined }) => {
   };
 
   const showProductQuantity = () => {
-    if (product.quantity < 10) {
+    if (product.quantity < 10 && product.quantity > 0) {
       return (
         <div className="limitedProduct">
           Only {product.quantity} items left!
@@ -51,15 +54,17 @@ const SingleProduct = ({ product, setRun = (f) => f, run = undefined }) => {
   };
 
   const showUpdateCart = () => {
-    return (
-      <input
-        type="number"
-        value={count}
-        min="0"
-        max={product.quantity}
-        onChange={handleChange(product._id)}
-      />
-    );
+    if (product.quantity > 0) {
+      return (
+        <input
+          type="number"
+          value={count}
+          min="0"
+          max={product.quantity}
+          onChange={handleChange(product._id)}
+        />
+      );
+    }
   };
 
   const handleChange = (id) => (event) => {
@@ -70,6 +75,16 @@ const SingleProduct = ({ product, setRun = (f) => f, run = undefined }) => {
       updateItem(id, count);
     }
   };
+
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      id="error"
+      style={{ display: error ? "" : "none" }}
+    >
+      Product is out of stock
+    </div>
+  );
 
   return (
     <div className="row">
@@ -85,8 +100,10 @@ const SingleProduct = ({ product, setRun = (f) => f, run = undefined }) => {
       <div className="col-6">
         <h1>{product.name}</h1>
         <h4>${product.price}</h4>
+        {showError()}
         {showProductQuantity()}
         {showUpdateCart()} <br />
+        {showProductStock(product.quantity)} <br />
         {showAddToCart()}
         <h3 className="mt-5">
           Product Details <i className="fa fa-indent"></i>

@@ -27,13 +27,9 @@ const AdminCard = ({ product, loadArrival, loadSell }) => {
 
   const showProductStock = (quantity) => {
     return quantity > 0 ? (
-      <span className="badge badge-primary padge-pill stockValue">
-        In Stock
-      </span>
+      <span className="badge badge-primary">In Stock</span>
     ) : (
-      <span className="badge badge-primary padge-pill stockValue">
-        Out of Stock
-      </span>
+      <span className="badge badge-danger">Out of Stock</span>
     );
   };
 
