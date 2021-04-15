@@ -21,7 +21,7 @@ const Categories = () => {
 
   useEffect(() => {
     loadCategories();
-  }, []);
+  }, [categories]);
 
   const showCategoriesLength = () => {
     if (categories.length > 0) {
@@ -60,7 +60,13 @@ const Categories = () => {
                   </td>
                   <td>{category.name}</td>
                   <td>
-                    <a onClick={() => deleteCategory(category._id)}>Delete</a>
+                    <a
+                      onClick={() => {
+                        deleteCategory(category._id, user._id, token);
+                      }}
+                    >
+                      Delete
+                    </a>
                   </td>
                 </tr>
               ))}
