@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import ShowImage from "./ShowImage";
 import { Link, Redirect } from "react-router-dom";
-import { addItem, updateItem, removeItem } from "./cartHelper";
-import { getProducts, deleteProduct } from "../admin/apiAdmin";
+import { deleteProduct } from "../admin/apiAdmin";
 import { isAuthenticated } from "../auth";
 
 import moment from "moment";

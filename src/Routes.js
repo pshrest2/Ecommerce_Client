@@ -8,6 +8,7 @@ import AdminRoute from "./auth/AdminRoute";
 import Dashboard from "./user/UserDashboard";
 import AdminDashboard from "./user/AdminDashboard";
 import AddCategory from "./admin/AddCategory";
+import UpdateCategory from "./admin/UpdateCategory";
 import AddProduct from "./admin/AddProduct";
 import Shop from "./core/Shop";
 import Product from "./core/Product";
@@ -17,6 +18,7 @@ import OrderHistory from "./admin/OrderHistory";
 import SingleOrder from "./admin/SingleOrder";
 import Profile from "./user/Profile";
 import UpdateProduct from "./admin/UpdateProduct";
+import Categories from "./admin/Categories";
 
 const Routes = () => {
   return (
@@ -37,6 +39,12 @@ const Routes = () => {
         />
         <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
         <AdminRoute path="/create/category" exact component={AddCategory} />
+        <AdminRoute
+          path="/update/category/:categoryId"
+          exact
+          component={UpdateCategory}
+        />
+        <AdminRoute path="/update/category" exact component={Categories} />
         <AdminRoute path="/create/product" exact component={AddProduct} />
         <AdminRoute path="/admin/orders" exact component={Orders} />
         <AdminRoute path="/admin/orderhistory" exact component={OrderHistory} />

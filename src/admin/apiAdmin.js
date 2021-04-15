@@ -1,5 +1,6 @@
 import { API } from "../config";
 
+//create a category
 export const createCategory = (userId, token, category) => {
   return fetch(`${API}/category/create/${userId}`, {
     method: "POST",
@@ -18,14 +19,10 @@ export const createCategory = (userId, token, category) => {
     });
 };
 
-export const createProduct = (userId, token, product) => {
-  return fetch(`${API}/product/create/${userId}`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: product,
+//read all categories
+export const getCategories = () => {
+  return fetch(`${API}/categories`, {
+    method: "GET",
   })
     .then((res) => {
       return res.json();
@@ -35,9 +32,46 @@ export const createProduct = (userId, token, product) => {
     });
 };
 
-export const getCategories = () => {
-  return fetch(`${API}/categories`, {
+//read single category
+export const getCategory = (categoryId) => {
+  return fetch(`${API}/category/${categoryId}`, {
     method: "GET",
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+//update category
+export const updateCategory = (categoryId, userId, token, category) => {
+  return fetch(`${API}/category/${categoryId}/${userId}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: category,
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+//delete a category
+export const deleteCategory = (categoryId, userId, token) => {
+  return fetch(`${API}/category/${categoryId}/${userId}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   })
     .then((res) => {
       return res.json();
@@ -120,6 +154,24 @@ export const updateOrderStatus = (userId, token, orderId, status) => {
  * update single product
  * delete single product
  */
+
+//Create a product
+export const createProduct = (userId, token, product) => {
+  return fetch(`${API}/product/create/${userId}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: product,
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
 //get all products
 export const getProducts = () => {
