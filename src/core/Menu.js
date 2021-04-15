@@ -1,7 +1,7 @@
 import { React, Fragment, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth";
-import { totalItems } from "./cartHelper";
+import { totalItems, emptyCart } from "./cartHelper";
 
 import "./css/Menu.css";
 const isActive = (history, path) => {
@@ -111,21 +111,53 @@ const Menu = ({ history }) => {
               </Fragment>
             )}
 
-            {isAuthenticated() && (
-              <li className="nav-item">
-                <span
-                  className="nav-links"
-                  style={{ cursor: "pointer", color: "#ffffff" }}
-                  onClick={() =>
-                    signout(() => {
-                      history.push("/");
-                    })
-                  }
-                >
-                  Signout
-                </span>
-              </li>
-            )}
+            {isAuthenticated() ? (
+              isAuthenticated().user.role === 1 ? (
+                <li className="nav-item">
+                  <span
+                    className="nav-links"
+                    style={{ cursor: "pointer", color: "#ffffff" }}
+                    onClick={() => {
+                      signout(() => {
+                        history.push("/");
+                      });
+                    }}
+                  >
+                    Signout
+                  </span>
+                </li>
+              ) : (
+                <li className="nav-item">
+                  <span
+                    className="nav-links"
+                    style={{ cursor: "pointer", color: "#ffffff" }}
+                    onClick={() => {
+                      if (totalItems() > 0) {
+                        if (
+                          typeof window !== undefined &&
+                          window.confirm(
+                            "Logging out will delete all items in your cart. Are you sure you want to proceed?"
+                          )
+                        ) {
+                          signout(() => {
+                            emptyCart(() => {
+                              console.log("Emptying the cart...");
+                              history.push("/");
+                            });
+                          });
+                        }
+                      } else {
+                        signout(() => {
+                          history.push("/");
+                        });
+                      }
+                    }}
+                  >
+                    Signout
+                  </span>
+                </li>
+              )
+            ) : null}
 
             {isAuthenticated() && isAuthenticated().user.role === 0 && (
               <li className="nav-item">
