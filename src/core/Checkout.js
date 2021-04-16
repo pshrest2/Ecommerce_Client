@@ -65,35 +65,8 @@ const Checkout = ({ products }) => {
     );
   };
 
-  const handleAddress1 = (event) => {
-    setData({
-      ...data,
-      address1: event.target.value,
-    });
-  };
-  const handleAddress2 = (event) => {
-    setData({
-      ...data,
-      address2: event.target.value,
-    });
-  };
-  const handleCity = (event) => {
-    setData({
-      ...data,
-      city: event.target.value,
-    });
-  };
-  const handleState = (event) => {
-    setData({
-      ...data,
-      state: event.target.value,
-    });
-  };
-  const handleZipCode = (event) => {
-    setData({
-      ...data,
-      zipCode: event.target.value,
-    });
+  const handleChange = (name) => (event) => {
+    setData({ ...data, [name]: event.target.value });
   };
 
   let delivery_address1 = data.address1;
@@ -182,23 +155,16 @@ const Checkout = ({ products }) => {
         {data.clientToken !== null && products.length > 0 ? (
           <div>
             <div className="gorm-group mb-3">
-              {/* <label className="text-muted">Delivery Address:</label>
-              <textarea
-                onChange={handleAddress}
-                className="form-control"
-                value={data.address}
-                placeholder="Type your delivery address here..."
-              /> */}
               <label className="text-muted">Address Line 1:</label>
               <input
-                onChange={handleAddress1}
+                onChange={handleChange("address1")}
                 className="form-control"
                 value={data.address1 || ""}
                 placeholder="Enter Address Line 1"
               />
               <label className="text-muted">Address Line 2:</label>
               <input
-                onChange={handleAddress2}
+                onChange={handleChange("address2")}
                 className="form-control"
                 value={data.address2 || ""}
                 placeholder="Enter Address Line 2"
@@ -207,7 +173,7 @@ const Checkout = ({ products }) => {
                 <div className="col-4">
                   <label className="text-muted">City:</label>
                   <input
-                    onChange={handleCity}
+                    onChange={handleChange("city")}
                     className="form-control city"
                     value={data.city || ""}
                     placeholder="City"
@@ -216,18 +182,19 @@ const Checkout = ({ products }) => {
                 <div className="col-4">
                   <label className="text-muted">State:</label>
                   <input
-                    onChange={handleState}
+                    // onChange={handleChange("state")}
                     className="form-control state"
-                    value={data.state || ""}
+                    value={data.state || "MS"}
                     placeholder="MS"
                     readOnly
                   />
+                  {console.log(data.state)}
                 </div>
                 <div className="col-4">
                   <label className="text-muted">Zip Code:</label>
                   <input
                     type="text"
-                    onChange={handleZipCode}
+                    onChange={handleChange("zipCode")}
                     className="form-control zip"
                     value={data.zipCode || ""}
                     placeholder="5 Digit Number"

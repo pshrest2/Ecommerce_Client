@@ -14,7 +14,6 @@ import AddProduct from "./admin/AddProduct";
 import Shop from "./core/Shop";
 import Product from "./core/Product";
 import Cart from "./core/Cart";
-import Orders from "./core/Orders";
 import OrderHistory from "./admin/OrderHistory";
 import SingleOrder from "./admin/SingleOrder";
 import SingleOrderUser from "./user/SingleOrder";
@@ -55,7 +54,6 @@ const Routes = () => {
         />
         <AdminRoute path="/update/category" exact component={Categories} />
         <AdminRoute path="/create/product" exact component={AddProduct} />
-        <AdminRoute path="/admin/orders" exact component={Orders} />
         <AdminRoute path="/admin/orderhistory" exact component={OrderHistory} />
         <AdminRoute
           path="/admin/orderhistory/:orderId"
