@@ -96,7 +96,7 @@ const Profile = ({ match }) => {
         />
       </div>
       <div className="form-group">
-        <label className="text-muted">Password</label>
+        <label className="text-muted">New Password</label>
         <input
           className="form-control"
           type="password"
