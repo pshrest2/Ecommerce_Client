@@ -8,11 +8,12 @@ const Signup = () => {
     name: "",
     email: "",
     password: "",
+    password_again: "",
     error: "",
     success: false,
   });
 
-  const { name, email, password, success, error } = values;
+  const { name, email, password, password_again, success, error } = values;
 
   const handleChange = (name) => (event) => {
     // this name variable is different from the state's name variable in line 8.
@@ -21,21 +22,25 @@ const Signup = () => {
 
   const clickSubmit = (event) => {
     event.preventDefault();
-    setValues({ ...values, error: false });
-    signup({ name, email, password }).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error, success: false });
-      } else {
-        setValues({
-          ...values,
-          name: "",
-          email: "",
-          password: "",
-          error: "",
-          success: true,
-        });
-      }
-    });
+    if (password !== password_again) {
+      setValues({ ...values, error: "Passwords must match" });
+    } else {
+      setValues({ ...values, error: false });
+      signup({ name, email, password }).then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error, success: false });
+        } else {
+          setValues({
+            ...values,
+            name: "",
+            email: "",
+            password: "",
+            error: "",
+            success: true,
+          });
+        }
+      });
+    }
   };
 
   const signUpForm = () => (
@@ -65,6 +70,15 @@ const Signup = () => {
           type="password"
           className="form-control"
           value={password}
+        />
+      </div>
+      <div className="form-group">
+        <label className="text-muted">Re-Enter Password</label>
+        <input
+          onChange={handleChange("password_again")}
+          type="password"
+          className="form-control"
+          value={password_again}
         />
       </div>
       <button onClick={clickSubmit} className="btn btn-primary">
