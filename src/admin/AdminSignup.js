@@ -2,18 +2,30 @@ import React, { useState } from "react";
 import Layout from "../core/Layout";
 import { Link } from "react-router-dom";
 import { signup } from "../auth";
+import { SECRET } from "../config";
 
-const Signup = () => {
+const AdminSignup = () => {
   const [values, setValues] = useState({
     name: "",
     email: "",
     password: "",
     password_again: "",
+    secret: "",
+    role: "1",
     error: "",
     success: false,
   });
 
-  const { name, email, password, password_again, success, error } = values;
+  const {
+    name,
+    email,
+    password,
+    password_again,
+    secret,
+    role,
+    success,
+    error,
+  } = values;
 
   const handleChange = (name) => (event) => {
     // this name variable is different from the state's name variable in line 8.
@@ -24,9 +36,13 @@ const Signup = () => {
     event.preventDefault();
     if (password !== password_again) {
       setValues({ ...values, error: "Passwords must match" });
+      // } else if (secret !== SECRET) {
+    } else if (secret !== "Olemiss2021") {
+      console.log(SECRET);
+      setValues({ ...values, error: "Secret Key does not match" });
     } else {
       setValues({ ...values, error: false });
-      signup({ name, email, password }).then((data) => {
+      signup({ name, email, password, role }).then((data) => {
         if (data.error) {
           setValues({ ...values, error: data.error, success: false });
         } else {
@@ -35,6 +51,7 @@ const Signup = () => {
             name: "",
             email: "",
             password: "",
+            secret: "",
             error: "",
             success: true,
           });
@@ -81,12 +98,18 @@ const Signup = () => {
           value={password_again}
         />
       </div>
+      <div className="form-group">
+        <label className="text-muted">Admin Secret Key</label>
+        <input
+          onChange={handleChange("secret")}
+          type="password"
+          className="form-control"
+          value={secret}
+        />
+      </div>
       <button onClick={clickSubmit} className="btn btn-primary">
         Submit
       </button>
-      <Link className="ml-5" to="/admin/signup">
-        Are you an admin?
-      </Link>
     </form>
   );
 
@@ -109,8 +132,8 @@ const Signup = () => {
 
   return (
     <Layout
-      title="Sign Up Page"
-      description="Node React ECommerce App"
+      title="Admin Signup Page"
+      description="Signup to become an admin"
       className="container col-md-4 offset-md-4"
     >
       {showSuccess()}
@@ -120,4 +143,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default AdminSignup;
