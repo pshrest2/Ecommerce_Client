@@ -64,6 +64,7 @@ const OrderHistory = () => {
     <select
       className="form-control"
       onChange={(event) => handleStatusChange(event, order._id)}
+      value={order.status}
     >
       <option disabled>Update Status</option>
       {statusValues.map((status, index) => (
