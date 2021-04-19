@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
-import { isAuthenticated } from "../auth";
+import { isAuthenticated, hashed_password } from "../auth/index";
 import { Link, Redirect } from "react-router-dom";
 import { read, update, updateUser } from "./apiUser";
 
@@ -8,13 +8,22 @@ const Profile = ({ match }) => {
   const [values, setValues] = useState({
     name: "",
     email: "",
+    old_password: "",
     password: "",
     password_again: "",
-    error: false,
+    error: "",
     success: false,
   });
 
-  const { name, email, password, password_again, error, success } = values;
+  const {
+    name,
+    email,
+    old_password,
+    password,
+    password_again,
+    error,
+    success,
+  } = values;
   const { token } = isAuthenticated();
 
   const init = (userId) => {
@@ -37,27 +46,38 @@ const Profile = ({ match }) => {
 
   const clickSubmit = (event) => {
     event.preventDefault();
-    if (password === password_again) {
-      update(match.params.userId, token, { name, email, password }).then(
-        (data) => {
-          if (data.error) {
-            console.log(data.error);
-          } else {
-            console.log(data);
-            updateUser(data, () => {
-              setValues({
-                ...values,
-                name: data.name,
-                email: data.email,
-                success: true,
-              });
-            });
-          }
+    let id = match.params.userId;
+
+    hashed_password({ id, old_password }, token).then((data) => {
+      console.log(data);
+      if (data === true) {
+        if (password === "" || password_again === "") {
+          setValues({ ...values, error: "Password cannot be empty" });
+        } else if (password === password_again) {
+          update(match.params.userId, token, { name, email, password }).then(
+            (data) => {
+              if (data.error) {
+                console.log(data.error);
+              } else {
+                console.log(data);
+                updateUser(data, () => {
+                  setValues({
+                    ...values,
+                    name: data.name,
+                    email: data.email,
+                    success: true,
+                  });
+                });
+              }
+            }
+          );
+        } else {
+          setValues({ ...values, error: "Passwords must match" });
         }
-      );
-    } else {
-      setValues({ ...values, error: true });
-    }
+      } else {
+        setValues({ ...values, error: "Old password does not match" });
+      }
+    });
   };
 
   const showError = () => (
@@ -65,7 +85,7 @@ const Profile = ({ match }) => {
       className="alert alert-danger"
       style={{ display: error ? "" : "none" }}
     >
-      Passwords Must Match
+      {error}
     </div>
   );
 
@@ -93,6 +113,15 @@ const Profile = ({ match }) => {
           type="email"
           value={email}
           onChange={handleChange("email")}
+        />
+      </div>
+      <div className="form-group">
+        <label className="text-muted">Old Password</label>
+        <input
+          className="form-control"
+          type="password"
+          value={old_password}
+          onChange={handleChange("old_password")}
         />
       </div>
       <div className="form-group">

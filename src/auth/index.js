@@ -8,12 +8,31 @@ export const signup = (user) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(user),
-  }).then((res) => {
-    return res.json();
-  });
-  // .catch((err) => {
-  //   console.log(err);
-  // });  // is this necessary?
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const hashed_password = (data, token) => {
+  return fetch(`${API}/verify/password`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export const signin = (user) => {
