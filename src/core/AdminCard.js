@@ -73,10 +73,10 @@ const AdminCard = ({ product, loadArrival, loadSell }) => {
             Added {moment(product.createdAt).fromNow()} <br />
             {showProductStock(product.quantity)}
           </p>
+          {showUpdateCart()}
+          {showRemoveCartItem()}
         </div>
       </Link>
-      {showUpdateCart()}
-      {showRemoveCartItem()}
     </>
   );
 };

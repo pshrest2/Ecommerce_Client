@@ -73,7 +73,7 @@ const Home = () => {
         <div className="cards__container">
           <div className="cards__wrapper">
             <div className="row">
-              {productsByArrival.map((product, index) => (
+              {productsBySell.map((product, index) => (
                 <div key={index} className="col-4 mb-3">
                   {isAuthenticated() && isAuthenticated().user.role === 1 ? (
                     <AdminCard

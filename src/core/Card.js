@@ -10,8 +10,6 @@ import "./css/Button.css";
 const Card = ({
   product,
   showAddToCartButton = true,
-  cartUpdate = false,
-  showRemoveCartItemButton = false,
   setRun = (f) => f,
   run = undefined,
 }) => {
@@ -86,9 +84,9 @@ const Card = ({
             Added {moment(product.createdAt).fromNow()} <br />
             {showProductStock(product.quantity)}
           </p>
+          {showAddToCart(showAddToCartButton)}
         </div>
       </Link>
-      {showAddToCart(showAddToCartButton)}
     </>
   );
 };
