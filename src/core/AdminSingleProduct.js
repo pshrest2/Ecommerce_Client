@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
-import { addItem, updateItem } from "./cartHelper";
+import { Link, Redirect } from "react-router-dom";
 import { API } from "../config";
+import { deleteProduct } from "../admin/apiAdmin";
+import { isAuthenticated } from "../auth";
 
 const AdminSingleProduct = ({
   product,
@@ -9,7 +10,17 @@ const AdminSingleProduct = ({
   run = undefined,
 }) => {
   const [redirect, setRedirect] = useState(false);
-  const [count, setCount] = useState(product.count);
+  const { user, token } = isAuthenticated();
+
+  const delProduct = (productId) => {
+    deleteProduct(productId, user._id, token).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setRedirect(true);
+      }
+    });
+  };
 
   const showProductStock = (quantity) => {
     return quantity > 0 ? (
@@ -21,7 +32,7 @@ const AdminSingleProduct = ({
 
   const willRedirect = (redirect) => {
     if (redirect) {
-      return <Redirect to="/cart" />;
+      return <Redirect to="/" />;
     }
   };
 
@@ -33,6 +44,27 @@ const AdminSingleProduct = ({
         </div>
       );
     }
+  };
+
+  const showRemoveCartItem = () => {
+    return (
+      <button
+        onClick={() => delProduct(product._id)}
+        className="btn btn-outline-danger mt-2 mb-2"
+      >
+        Remove Item
+      </button>
+    );
+  };
+
+  const showUpdateCart = () => {
+    return (
+      <Link to={`/admin/product/update/${product._id}`}>
+        <button className="btn btn-outline-warning mt-2 mb-2">
+          Update Item
+        </button>
+      </Link>
+    );
   };
 
   return (
@@ -51,6 +83,10 @@ const AdminSingleProduct = ({
         <h4>${product.price}</h4>
         {showProductStock(product.quantity)}
         {showProductQuantity()}
+        <br />
+        {showUpdateCart()}
+        <br />
+        {showRemoveCartItem()}
         <h3 className="mt-5">
           Product Details <i className="fa fa-indent"></i>
         </h3>
