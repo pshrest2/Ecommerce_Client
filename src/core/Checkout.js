@@ -72,7 +72,6 @@ const Checkout = ({ products }) => {
   let delivery_address1 = data.address1;
   let delivery_address2 = data.address2;
   let delivery_city = data.city;
-  // let delivery_state = data.state;
   let delivery_state = "MS";
   let delivery_zip = data.zipCode;
 
@@ -85,25 +84,15 @@ const Checkout = ({ products }) => {
     let getNonce = data.instance
       .requestPaymentMethod()
       .then((data) => {
-        console.log(data);
         nonce = data.nonce;
         //once you have nonce(card type, number, etc.) send nonce as
         // 'paymentMethodNonce' and total to be charged to backend
-
-        // console.log(
-        //   "send nonce and total to process:",
-        //   nonce,
-        //   getTotal(products)
-        // );
-
         const paymentData = {
           paymentMethodNonce: nonce,
           amount: parseFloat(getTotal(products)).toFixed(2),
         };
         processPayment(userId, token, paymentData)
           .then((res) => {
-            console.log(res);
-
             //create order
             const createOrderData = {
               products: products,
