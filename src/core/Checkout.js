@@ -20,7 +20,7 @@ const Checkout = ({ products }) => {
     address1: " ",
     address2: " ",
     city: " ",
-    state: "MS",
+    state: "",
     zipCode: " ",
   });
 
@@ -72,7 +72,8 @@ const Checkout = ({ products }) => {
   let delivery_address1 = data.address1;
   let delivery_address2 = data.address2;
   let delivery_city = data.city;
-  let delivery_state = data.state;
+  // let delivery_state = data.state;
+  let delivery_state = "MS";
   let delivery_zip = data.zipCode;
 
   const checkout = () => {
@@ -184,11 +185,11 @@ const Checkout = ({ products }) => {
                   <input
                     // onChange={handleChange("state")}
                     className="form-control state"
-                    value={data.state || "MS"}
+                    value="MS"
                     placeholder="MS"
                     readOnly
                   />
-                  {console.log(data.state)}
+                  <input type="hidden" value="MS" />
                 </div>
                 <div className="col-4">
                   <label className="text-muted">Zip Code:</label>

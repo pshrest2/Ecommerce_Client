@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ShowImage from "./ShowImage";
-import { Link, Redirect } from "react-router-dom";
-import { addItem, updateItem, removeItem } from "./cartHelper";
+import { Redirect } from "react-router-dom";
+import { addItem } from "./cartHelper";
 import moment from "moment";
 
 import "./css/Card.css";
