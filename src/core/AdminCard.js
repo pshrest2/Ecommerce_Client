@@ -61,23 +61,21 @@ const AdminCard = ({ product, loadArrival, loadSell }) => {
   };
 
   return (
-    <>
-      <Link className="cards__item__link" to={`/product/${product._id}`}>
-        <div className="cards__item__info">
-          {willRedirect(redirect)}
-          <ShowImage item={product} url="product" />
-          <h5 className="cards__item__text">{product.name}</h5>
-          <p className="cards__item__text_description">
-            {product.description.substring(0, 50)} <br />
-            Category: {product.category && product.category.name} <br />
-            Added {moment(product.createdAt).fromNow()} <br />
-            {showProductStock(product.quantity)}
-          </p>
-          {showUpdateCart()}
-          {showRemoveCartItem()}
-        </div>
-      </Link>
-    </>
+    <div className="cards__item__link">
+      <div className="cards__item__info">
+        {willRedirect(redirect)}
+        <ShowImage item={product} url="product" />
+        <h5 className="cards__item__text">{product.name}</h5>
+        <p className="cards__item__text_description">
+          {product.description.substring(0, 50)} <br />
+          Category: {product.category && product.category.name} <br />
+          Added {moment(product.createdAt).fromNow()} <br />
+          {showProductStock(product.quantity)}
+        </p>
+        {showUpdateCart()}
+        {showRemoveCartItem()}
+      </div>
+    </div>
   );
 };
 
