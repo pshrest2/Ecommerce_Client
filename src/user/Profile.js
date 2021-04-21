@@ -44,40 +44,47 @@ const Profile = ({ match }) => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
+  const updateProfile = () => {
+    update(match.params.userId, token, { name, email, password }).then(
+      (data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          console.log(data);
+          updateUser(data, () => {
+            setValues({
+              ...values,
+              name: data.name,
+              email: data.email,
+              success: true,
+            });
+          });
+        }
+      }
+    );
+  };
+
   const clickSubmit = (event) => {
     event.preventDefault();
     let id = match.params.userId;
 
-    hashed_password({ id, old_password }, token).then((data) => {
-      console.log(data);
-      if (data === true) {
-        if (password === "" || password_again === "") {
-          setValues({ ...values, error: "Password cannot be empty" });
-        } else if (password === password_again) {
-          update(match.params.userId, token, { name, email, password }).then(
-            (data) => {
-              if (data.error) {
-                console.log(data.error);
-              } else {
-                console.log(data);
-                updateUser(data, () => {
-                  setValues({
-                    ...values,
-                    name: data.name,
-                    email: data.email,
-                    success: true,
-                  });
-                });
-              }
-            }
-          );
+    if (old_password === "" && password === "" && password_again === "") {
+      updateProfile();
+    } else {
+      hashed_password({ id, old_password }, token).then((data) => {
+        if (data === true) {
+          if (password === "" || password_again === "") {
+            setValues({ ...values, error: "Password fields cannot be empty" });
+          } else if (password === password_again) {
+            updateProfile();
+          } else {
+            setValues({ ...values, error: "Passwords must match" });
+          }
         } else {
-          setValues({ ...values, error: "Passwords must match" });
+          setValues({ ...values, error: "Old password does not match" });
         }
-      } else {
-        setValues({ ...values, error: "Old password does not match" });
-      }
-    });
+      });
+    }
   };
 
   const showError = () => (
