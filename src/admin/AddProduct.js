@@ -5,6 +5,7 @@ import { isAuthenticated } from "../auth";
 import { createProduct, getCategories } from "./apiAdmin";
 
 const AddProduct = () => {
+  //state to store data for a product
   const [values, setValues] = useState({
     name: "",
     description: "",
@@ -21,7 +22,10 @@ const AddProduct = () => {
     formData: "",
   });
 
+  //destructure user and token fields from isAuthenticated() function
   const { user, token } = isAuthenticated();
+
+  //destructure all required fields from values state
   const {
     name,
     description,
@@ -56,16 +60,20 @@ const AddProduct = () => {
     init();
   }, []);
 
+  //handleChange function
   const handleChange = (name) => (event) => {
     const value = name === "photo" ? event.target.files[0] : event.target.value;
     formData.set(name, value);
     setValues({ ...values, createdProduct: "", [name]: value });
   };
 
+  //execute this function when form is submitted
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, loading: true });
 
+    //create a product after getting all fields from the form
+    //createProduct is the API
     createProduct(user._id, token, formData).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, createdProduct: "" });
@@ -89,6 +97,7 @@ const AddProduct = () => {
     });
   };
 
+  //form component
   const newPostForm = () => (
     <form className="mb-3" onSubmit={clickSubmit}>
       <h4>Post Photo</h4>
@@ -140,6 +149,7 @@ const AddProduct = () => {
           id="selectCategory"
         >
           <option>Please select</option>
+
           {categories &&
             categories
               .sort((a, b) => (a.name > b.name ? 1 : -1))
@@ -178,6 +188,7 @@ const AddProduct = () => {
     </form>
   );
 
+  //display error component
   const showError = () => (
     <div
       className="alert alert-danger"
@@ -187,6 +198,7 @@ const AddProduct = () => {
     </div>
   );
 
+  //display success component
   const showSuccess = () => (
     <div
       className="alert alert-info"
@@ -196,6 +208,7 @@ const AddProduct = () => {
     </div>
   );
 
+  //display loading component
   const showLoading = () =>
     loading && (
       <div className="alert alert-success">
@@ -203,6 +216,7 @@ const AddProduct = () => {
       </div>
     );
 
+  //main
   return (
     <Layout title="Add a new product" description={`${user.name}`}>
       <div className="row">

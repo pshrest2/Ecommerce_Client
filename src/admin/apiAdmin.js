@@ -82,6 +82,7 @@ export const deleteCategory = (categoryId, userId, token) => {
     });
 };
 
+//list all orders
 export const listOrders = (userId, token) => {
   return fetch(`${API}/order/list/${userId}`, {
     method: "GET",
@@ -98,6 +99,7 @@ export const listOrders = (userId, token) => {
     });
 };
 
+//find an order for a user using userID and orderID
 export const findOrder = (userId, orderId, token) => {
   return fetch(`${API}/order/${orderId}/${userId}`, {
     method: "GET",
@@ -114,6 +116,7 @@ export const findOrder = (userId, orderId, token) => {
     });
 };
 
+//get all the status values
 export const getStatusValues = (userId, token) => {
   return fetch(`${API}/order/status-values/${userId}`, {
     method: "GET",
@@ -130,6 +133,7 @@ export const getStatusValues = (userId, token) => {
     });
 };
 
+//update the order status
 export const updateOrderStatus = (userId, token, orderId, status) => {
   return fetch(`${API}/order/${orderId}/status/${userId}`, {
     method: "PUT",

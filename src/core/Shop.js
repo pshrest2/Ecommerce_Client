@@ -11,12 +11,15 @@ import Search from "./Search";
 import { prices } from "./fixedPrices";
 
 const Shop = () => {
+  //myFilters state to store the filter properties
   const [myFilters, setMyFilters] = useState({
     filters: {
       category: [],
       price: [],
     },
   });
+
+  //initialize states
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(false);
   const [limit, setLimit] = useState(8);
@@ -24,6 +27,7 @@ const Shop = () => {
   const [filteredResults, setFilteredResults] = useState([]);
   const [size, setSize] = useState(0);
 
+  //get all the categories
   const init = () => {
     getCategories().then((data) => {
       if (data.error) {
@@ -34,6 +38,7 @@ const Shop = () => {
     });
   };
 
+  //load the filtered results. Need to pass the filter object
   const loadFilteredResults = (newFilters) => {
     getFilteredProducts(skip, limit, newFilters).then((data) => {
       if (data.error) {
@@ -46,6 +51,7 @@ const Shop = () => {
     });
   };
 
+  //load more button to load more products
   const loadMore = () => {
     let totalSkip = skip + limit;
 
@@ -60,6 +66,7 @@ const Shop = () => {
     });
   };
 
+  //load more button component
   const loadMoreButton = () => {
     return (
       size > 0 &&
@@ -76,6 +83,7 @@ const Shop = () => {
     loadFilteredResults(skip, limit, myFilters.filters);
   }, []);
 
+  //handle filters
   const handleFilters = (filters, filterBy) => {
     const newFilters = { ...myFilters };
     newFilters.filters[filterBy] = filters;
@@ -89,6 +97,7 @@ const Shop = () => {
     setMyFilters(newFilters);
   };
 
+  //function to handle price filters
   const handlePrice = (value) => {
     const data = prices;
     let array = [];
@@ -99,6 +108,7 @@ const Shop = () => {
     return array;
   };
 
+  //main
   return (
     <Layout
       className="container-fluid"

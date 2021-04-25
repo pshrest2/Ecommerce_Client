@@ -13,6 +13,7 @@ const Search = () => {
     searched: false,
   });
 
+  //load all categories
   const loadCategories = () => {
     getCategories().then((data) => {
       if (data.error) {
@@ -29,8 +30,10 @@ const Search = () => {
     loadCategories();
   }, []);
 
+  //get searched products
   const searchData = () => {
     if (search) {
+      //call listProductsQueried API to get products that is searched
       listProductsQueried({
         search: search || undefined,
         category: category,
@@ -48,6 +51,7 @@ const Search = () => {
     }
   };
 
+  //call serachData function when clicked submit button
   const searchSubmit = (event) => {
     event.preventDefault();
     searchData();
@@ -57,6 +61,7 @@ const Search = () => {
     setData({ ...data, [name]: event.target.value, searched: false });
   };
 
+  //serach message to display
   const searchMessage = (searched, results) => {
     if (searched && results.length > 0) {
       return `${results.length} items found`;
@@ -66,6 +71,7 @@ const Search = () => {
     }
   };
 
+  //searched products componend
   const searchedProduct = (results = []) => (
     <div className="cards">
       <h4 className="mt-4 mb-4">{searchMessage(searched, results)}</h4>
@@ -79,6 +85,7 @@ const Search = () => {
     </div>
   );
 
+  //search form component
   const searchForm = () => (
     <form onSubmit={searchSubmit}>
       <span className="input-group-text test">
@@ -113,6 +120,7 @@ const Search = () => {
     </form>
   );
 
+  // main
   return (
     <div className="row">
       <div className="container mb-2">{searchForm()}</div>

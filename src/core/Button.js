@@ -6,6 +6,7 @@ const STYLES = ["btn--primary", "btn--outline", "btn--test"];
 
 const SIZES = ["btn--medium", "btn--large"];
 
+//Button component
 export const Button = ({ children, type, buttonStyle, buttonSize, link }) => {
   const checkButtonStyle = STYLES.includes(buttonStyle)
     ? buttonStyle

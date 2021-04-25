@@ -10,14 +10,16 @@ const AddCategory = () => {
   const [success, setSuccess] = useState(false);
 
   //destructure user and info from local storage
-
   const { user, token } = isAuthenticated();
 
+  //handleChange functio to handle any change made in the add category field
   const handleChange = (event) => {
-    setError("");
-    setSuccess(false);
-    setName(event.target.value);
+    setError(""); //remove any error
+    setSuccess(false); //set success to false0
+    setName(event.target.value); //set the name to the value passed from the form
   };
+
+  //function to execute after clicking the submit button
   const cilckSubmit = (event) => {
     event.preventDefault();
     setError("");
@@ -34,6 +36,7 @@ const AddCategory = () => {
     });
   };
 
+  //form component
   const newCategoryForm = () => {
     return (
       <form onSubmit={cilckSubmit}>
@@ -54,17 +57,21 @@ const AddCategory = () => {
     );
   };
 
+  //success message component
   const showSuccess = () => {
     if (success) {
       return <h3 className="text-success">{name} is created</h3>;
     }
   };
+
+  //error message component
   const showError = () => {
     if (error) {
       return <h3 className="text-danger">Category should be unique</h3>;
     }
   };
 
+  //backe to dashboard component
   const goBack = () => (
     <div className="container mt-5">
       <Link to="/admin/dashboard" className="text-warning">
@@ -73,6 +80,7 @@ const AddCategory = () => {
     </div>
   );
 
+  //main
   return (
     <Layout title="Add a new Category" description={user.name}>
       <div className="row">

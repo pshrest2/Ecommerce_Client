@@ -6,13 +6,18 @@ import Checkout from "./Checkout";
 import CartItems from "./CartItems";
 
 const Cart = () => {
+  //state to store all items in the cart
   const [items, setItems] = useState([]);
+
+  //state to keep track of the rendering.
   const [run, setRun] = useState(false);
 
+  //every time value of run is changed, call the setItems function
   useEffect(() => {
     setItems(getCartItems());
   }, [run]);
 
+  //get the sub total
   const getSubTotal = () => {
     return items.reduce((currentValue, nextValue) => {
       // console.log("Current value: ", currentValue);
@@ -22,14 +27,17 @@ const Cart = () => {
     }, 0);
   };
 
+  //calculate the tax. 7%
   const getTax = () => {
     return getSubTotal() * 0.07;
   };
 
+  //calculate the total
   const getTotal = () => {
     return getSubTotal() + getTax();
   };
 
+  //display items in the cart component
   const showItems = (items) => {
     return (
       <div className="container">
@@ -76,6 +84,7 @@ const Cart = () => {
     );
   };
 
+  //If no items in the cart
   const noItemsMessage = () => {
     return (
       <h2>
@@ -85,6 +94,7 @@ const Cart = () => {
     );
   };
 
+  //main
   return (
     <Layout
       className="container-fluid"

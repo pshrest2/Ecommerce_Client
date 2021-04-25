@@ -6,10 +6,13 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 const UserHistory = () => {
+  //state to store user orders
   const [orders, setOrders] = useState([]);
   const { user, token } = isAuthenticated();
 
+  //load all the user orders
   const loadOrders = () => {
+    //call getPurchaseHistory API to get all the purchase history for a user
     getPurchaseHistory(user._id, token).then((data) => {
       if (data.error) {
         console.log(data.error);
@@ -23,6 +26,7 @@ const UserHistory = () => {
     loadOrders();
   }, []);
 
+  //display total orders made by the user
   const showOrdersLength = () => {
     if (orders.length > 0) {
       return (
@@ -35,6 +39,7 @@ const UserHistory = () => {
     }
   };
 
+  //main
   return (
     <Layout
       className="container-fluid"

@@ -1,5 +1,6 @@
 import { API } from "../config";
 
+//API to read a user by passing userID
 export const read = (userId, token) => {
   return fetch(`${API}/user/${userId}`, {
     method: "GET",
@@ -17,6 +18,7 @@ export const read = (userId, token) => {
     });
 };
 
+//API to get purchage history for a user
 export const getPurchaseHistory = (userId, token) => {
   return fetch(`${API}/orders/by/user/${userId}`, {
     method: "GET",
@@ -34,6 +36,7 @@ export const getPurchaseHistory = (userId, token) => {
     });
 };
 
+//API to find an order by passing orderID and userID
 export const findOrder = (userId, orderId, token) => {
   return fetch(`${API}/order-user/${orderId}/${userId}`, {
     method: "GET",
@@ -50,6 +53,7 @@ export const findOrder = (userId, orderId, token) => {
     });
 };
 
+//API to update user info
 export const update = (userId, token, userData) => {
   return fetch(`${API}/user/${userId}`, {
     method: "PUT",
@@ -68,6 +72,7 @@ export const update = (userId, token, userData) => {
     });
 };
 
+//middleware that updates user info in the localstorage and updates the JWT for authentication
 export const updateUser = (user, next) => {
   if (typeof window !== "undefined") {
     if (localStorage.getItem("jwt")) {

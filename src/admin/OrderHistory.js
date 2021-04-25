@@ -6,12 +6,17 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 const OrderHistory = () => {
+  //state to store all the orders
   const [orders, setOrders] = useState([]);
+  //state to store all the statusValues
   const [statusValues, setStatusValues] = useState([]);
 
+  //destructure user and token from isAuthenticated
   const { user, token } = isAuthenticated();
 
+  //load all the orders
   const loadOrders = () => {
+    //call the listOrders API
     listOrders(user._id, token).then((data) => {
       if (data.error) {
         console.log(data.error);
@@ -21,7 +26,9 @@ const OrderHistory = () => {
     });
   };
 
+  //load all the status values
   const loadStatusValues = () => {
+    //call the getStatusValues API
     getStatusValues(user._id, token).then((data) => {
       if (data.error) {
         console.log(data.error);
@@ -36,6 +43,7 @@ const OrderHistory = () => {
     loadStatusValues();
   }, []);
 
+  //display the total number of orders
   const showOrdersLength = () => {
     if (orders.length > 0) {
       return (
@@ -48,18 +56,22 @@ const OrderHistory = () => {
     }
   };
 
+  //call this function if status value is changed by the admin
   const handleStatusChange = (event, orderId) => {
+    //call the updateOrderStatus API
     updateOrderStatus(user._id, token, orderId, event.target.value).then(
       (data) => {
         if (data.error) {
           console.log("Status Update Failed");
         } else {
+          //if no error, load the orders
           loadOrders();
         }
       }
     );
   };
 
+  //display the status component
   const showStatus = (order) => (
     <select
       className="form-control"
@@ -75,6 +87,7 @@ const OrderHistory = () => {
     </select>
   );
 
+  //main
   return (
     <Layout
       className="container-fluid"

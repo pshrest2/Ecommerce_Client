@@ -16,6 +16,7 @@ const Card = ({
   const [redirect, setRedirect] = useState(false);
   const [error, setError] = useState(false);
 
+  //show if product is in stock or out of stock
   const showProductStock = (quantity) => {
     return quantity > 0 ? (
       <span className="badge badge-primary">In Stock</span>
@@ -24,12 +25,16 @@ const Card = ({
     );
   };
 
+  //add product to card
   const addToCart = () => {
+    //only add product to card it quantity is > 0
     if (product.quantity > 0) {
+      //call addItem API to add item to local storage
       addItem(product, () => {
         setRedirect(true);
       });
     } else {
+      //if product's quantity is < 0 show error with a timer of 3 seconds
       setError(true);
       setTimeout(() => {
         setError(false);
@@ -37,12 +42,14 @@ const Card = ({
     }
   };
 
+  //redirect to cart page
   const willRedirect = (redirect) => {
     if (redirect) {
       return <Redirect to="/cart" />;
     }
   };
 
+  //add to cart button
   const showAddToCart = (showAddToCartButton) => {
     return (
       showAddToCartButton && (
@@ -59,6 +66,7 @@ const Card = ({
     );
   };
 
+  //error component
   const showError = () => (
     <div
       className="alert alert-danger"
@@ -69,6 +77,7 @@ const Card = ({
     </div>
   );
 
+  //main
   return (
     <div className="cards__item__link">
       <div className="cards__item__info">

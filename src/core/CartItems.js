@@ -13,16 +13,22 @@ const CartItems = ({
   run = undefined,
   children,
 }) => {
+  //count state for each product in the cart
   const [count, setCount] = useState(product.count);
 
+  //handle change function
   const handleChange = (product) => (event) => {
     setRun(!run);
     let countValue = event.target.value;
 
+    //if the count value is greater than total items in stock,
+    //set the count value to the total items in stock
     if (countValue > product.quantity) {
       countValue = product.quantity;
       setCount(product.quantity);
-    } else if (countValue < 1) {
+    }
+    //also, don't let users set count < 1
+    else if (countValue < 1) {
       countValue = 1;
       setCount(1);
     } else {
@@ -30,10 +36,12 @@ const CartItems = ({
     }
 
     if (countValue >= 1 && countValue <= product.quantity) {
+      //if count value is correct, call the updateItem to udpate the count value in localstorage
       updateItem(product._id, countValue);
     }
   };
 
+  //main
   return (
     <>
       <tr>

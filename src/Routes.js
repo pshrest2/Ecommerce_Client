@@ -23,6 +23,7 @@ import Categories from "./admin/Categories";
 import UserHistory from "./user/UserHistory";
 import AdminSignup from "./admin/AdminSignup";
 
+//all the client routes available are listed here
 const Routes = () => {
   return (
     <BrowserRouter>

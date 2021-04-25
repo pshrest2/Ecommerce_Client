@@ -11,6 +11,7 @@ import { emptyCart } from "./cartHelper";
 import "./css/address.css";
 
 const Checkout = ({ products }) => {
+  //state to store the data for checkout
   const [data, setData] = useState({
     loading: false,
     success: false,
@@ -27,6 +28,7 @@ const Checkout = ({ products }) => {
   const userId = isAuthenticated() && isAuthenticated().user._id;
   const token = isAuthenticated() && isAuthenticated().token;
 
+  //get a token by calling the API function
   const getToken = (userId, token) => {
     getBraintreeClientToken(userId, token).then((data) => {
       if (data.error) {
@@ -41,20 +43,24 @@ const Checkout = ({ products }) => {
     getToken(userId, token);
   }, []);
 
+  //get sub total
   const getSubTotal = () => {
     return products.reduce((currentValue, nextValue) => {
       return currentValue + nextValue.count * nextValue.price;
     }, 0);
   };
 
+  //get tax
   const getTax = () => {
     return getSubTotal() * 0.07;
   };
 
+  //get total after tax
   const getTotal = () => {
     return getSubTotal() + getTax();
   };
 
+  //display checkout option
   const showCheckout = () => {
     return isAuthenticated() ? (
       <div>{showDropIn()}</div>
@@ -65,16 +71,19 @@ const Checkout = ({ products }) => {
     );
   };
 
+  //handle change for form data
   const handleChange = (name) => (event) => {
     setData({ ...data, [name]: event.target.value });
   };
 
+  //get address info from the state
   let delivery_address1 = data.address1;
   let delivery_address2 = data.address2;
   let delivery_city = data.city;
   let delivery_state = "MS";
   let delivery_zip = data.zipCode;
 
+  //checkout function to make payment
   const checkout = () => {
     //send the nonce to your server
     //nonce = data.instance.requestPaymentMethod()
@@ -104,6 +113,7 @@ const Checkout = ({ products }) => {
               state: delivery_state,
               zip: delivery_zip,
             };
+            //when a payment is made, create an order history
             createOrder(userId, token, createOrderData)
               .then((res) => {
                 //empty cart
@@ -117,8 +127,6 @@ const Checkout = ({ products }) => {
                 console.log(error);
                 setData({ loading: false });
               });
-
-            //create order
           })
           .catch((error) => {
             console.log(error);
@@ -131,14 +139,10 @@ const Checkout = ({ products }) => {
       });
   };
 
-  // const displayReload = (success) => {
-  //   if (success) {
-  //     return <div className="alert alert-info">Reloading...</div>;
-  //   }
-  // };
-
+  //display loading component
   const showLoading = (loading) => loading && <h2>Loading...</h2>;
 
+  //display the drop in UI for payment along with address form
   const showDropIn = () => {
     return (
       <div onBlur={() => setData({ ...data, error: "" })}>
@@ -212,6 +216,7 @@ const Checkout = ({ products }) => {
     );
   };
 
+  //error component
   const showError = (error) => {
     return (
       <div
@@ -223,6 +228,7 @@ const Checkout = ({ products }) => {
     );
   };
 
+  //success component
   const showSuccess = (success) => {
     return (
       <div
@@ -234,6 +240,7 @@ const Checkout = ({ products }) => {
     );
   };
 
+  //main
   return (
     <div className="container">
       <h2>Checkout</h2>

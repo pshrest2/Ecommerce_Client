@@ -6,15 +6,18 @@ import AdminCard from "./AdminCard";
 import Card from "./Card";
 import "./css/Product.css";
 import { isAuthenticated } from "../auth";
-
 import SingleProduct from "./SingleProduct";
 import AdminSingleProduct from "./AdminSingleProduct";
 
 const Product = (props) => {
+  //state to store single product info
   const [product, setProduct] = useState({});
+
+  //state to store related products
   const [relatedProduct, setRelatedProduct] = useState([]);
   const [error, setError] = useState(false);
 
+  //load the single product by calling the getProduct API
   const loadSingleProduct = (productId) => {
     getProduct(productId).then((data) => {
       if (data.error) {
@@ -39,6 +42,7 @@ const Product = (props) => {
     loadSingleProduct(productId);
   }, [props]);
 
+  //main
   return (
     <Layout className="container-fluid">
       <div className="row">

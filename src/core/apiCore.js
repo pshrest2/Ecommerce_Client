@@ -1,6 +1,7 @@
 import { API } from "../config";
 import queryString from "query-string";
 
+//get all products
 export const getProducts = (sortBy) => {
   return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=6`, {
     method: "GET",
@@ -13,6 +14,7 @@ export const getProducts = (sortBy) => {
     });
 };
 
+//get all categories
 export const getCategories = () => {
   return fetch(`${API}/categories`, {
     method: "GET",
@@ -25,6 +27,7 @@ export const getCategories = () => {
     });
 };
 
+//get the filtered products by passing the filters and limit data
 export const getFilteredProducts = (skip, limit, filters = {}) => {
   const data = {
     limit,
@@ -47,6 +50,7 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
     });
 };
 
+//list the products searched in the search bar
 export const listProductsQueried = (params) => {
   const query = queryString.stringify(params);
   console.log(query);
@@ -61,6 +65,7 @@ export const listProductsQueried = (params) => {
     });
 };
 
+//get a single product
 export const getProduct = (productId) => {
   return fetch(`${API}/product/${productId}`, {
     method: "GET",
@@ -73,6 +78,7 @@ export const getProduct = (productId) => {
     });
 };
 
+//get related products. All products that are under the same category
 export const getRelatedProducts = (productId) => {
   return fetch(`${API}/products/related/${productId}`, {
     method: "GET",
@@ -85,6 +91,7 @@ export const getRelatedProducts = (productId) => {
     });
 };
 
+//get the braintree client token to display the drop in UI
 export const getBraintreeClientToken = (userId, token) => {
   return fetch(`${API}/braintree/getToken/${userId}`, {
     method: "GET",
@@ -101,6 +108,9 @@ export const getBraintreeClientToken = (userId, token) => {
       console.log(err);
     });
 };
+
+//API to process the payment. Need to pass the paymentData that includes the
+//payment token and amount to be processed.
 export const processPayment = (userId, token, paymentData) => {
   return fetch(`${API}/braintree/payment/${userId}`, {
     method: "POST",
@@ -119,6 +129,7 @@ export const processPayment = (userId, token, paymentData) => {
     });
 };
 
+//create an order
 export const createOrder = (userId, token, createOrderData) => {
   return fetch(`${API}/order/create/${userId}`, {
     method: "POST",

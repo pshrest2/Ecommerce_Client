@@ -5,6 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import { read, update, updateUser } from "./apiUser";
 
 const Profile = ({ match }) => {
+  //state to store user info
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -15,6 +16,7 @@ const Profile = ({ match }) => {
     success: false,
   });
 
+  //destructure required info of user
   const {
     name,
     email,
@@ -26,7 +28,9 @@ const Profile = ({ match }) => {
   } = values;
   const { token } = isAuthenticated();
 
+  //init function to get a user's info
   const init = (userId) => {
+    //API to read a user
     read(userId, token).then((data) => {
       if (data.error) {
         setValues({ ...values, error: true });
@@ -40,11 +44,14 @@ const Profile = ({ match }) => {
     init(match.params.userId);
   }, []);
 
+  //handle Change function for handling changes made in a form
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
+  //function to update the profile of a user
   const updateProfile = () => {
+    //API to update user profile
     update(match.params.userId, token, { name, email, password }).then(
       (data) => {
         if (data.error) {
@@ -64,18 +71,26 @@ const Profile = ({ match }) => {
     );
   };
 
+  //call this function once the form is submitted
   const clickSubmit = (event) => {
     event.preventDefault();
     let id = match.params.userId;
 
+    //if password fields are empty, simply update user name or email
     if (old_password === "" && password === "" && password_again === "") {
       updateProfile();
-    } else {
+    }
+    //else update password along with other fields
+    else {
+      //authenticate the user by checking if the old password matches
       hashed_password({ id, old_password }, token).then((data) => {
         if (data === true) {
+          //if user is authenticated, check if both password fields are not empty
           if (password === "" || password_again === "") {
             setValues({ ...values, error: "Password fields cannot be empty" });
-          } else if (password === password_again) {
+          }
+          //then check if both password match
+          else if (password === password_again) {
             updateProfile();
           } else {
             setValues({ ...values, error: "Passwords must match" });
@@ -87,6 +102,7 @@ const Profile = ({ match }) => {
     }
   };
 
+  //error component
   const showError = () => (
     <div
       className="alert alert-danger"
@@ -96,12 +112,14 @@ const Profile = ({ match }) => {
     </div>
   );
 
+  //redirect user to dashboard once successfully updating the profile
   const redirectUser = (success) => {
     if (success) {
       return <Redirect to="/user/dashboard" />;
     }
   };
 
+  //form component to update the profile
   const profileUpdate = (name, email, password) => (
     <form>
       <div className="form-group">
@@ -156,6 +174,7 @@ const Profile = ({ match }) => {
     </form>
   );
 
+  //main
   return (
     <Layout
       className="container col-sm-4 offset-sm-4"

@@ -1,3 +1,4 @@
+//price ranges for filtering
 export const prices = [
   {
     _id: 0,

@@ -6,11 +6,16 @@ import { Link } from "react-router-dom";
 import { API } from "../config";
 
 const SingleOrder = (props) => {
+  //state to store a single order
   const [order, setOrder] = useState({});
+
+  //error state
   const [error, setError] = useState(false);
   const { user, token } = isAuthenticated();
 
+  //load single order
   const loadSingleOrder = (orderId, token) => {
+    //findOrder API to get a single order
     findOrder(user._id, orderId, token).then((data) => {
       if (data.error) {
         setError(data.error);
@@ -21,11 +26,12 @@ const SingleOrder = (props) => {
   };
 
   useEffect(() => {
+    //get order ID form URL
     const orderId = props.match.params.orderId;
-
     loadSingleOrder(orderId, token);
   }, [props]);
 
+  //main
   return (
     <>
       <Layout

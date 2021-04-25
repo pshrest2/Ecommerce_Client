@@ -2,6 +2,7 @@ import React from "react";
 import { API } from "../config";
 import { Link } from "react-router-dom";
 
+//display image component
 const ShowImage = ({ item, url }) => (
   <Link to={`/product/${item._id}`}>
     <figure className="cards__item__pic-wrap" data-category={`$${item.price}`}>

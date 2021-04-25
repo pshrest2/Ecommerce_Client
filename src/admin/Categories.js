@@ -7,19 +7,25 @@ import { isAuthenticated } from "../auth";
 const { user, token } = isAuthenticated();
 
 const Categories = () => {
+  //state to store list of categories
   const [categories, setCategories] = useState([]);
 
+  //load all the categories
   const loadCategories = () => {
+    //call the getCategories API
     getCategories().then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
+        //if no error, set the categories
         setCategories(data);
       }
     });
   };
 
+  //delete a category
   const delCategory = (categoryId) => {
+    //call the deleteCategory API and pass the categoryID to be deleted
     deleteCategory(categoryId, user._id, token).then((data) => {
       if (data.error) {
         console.log(data.error);
@@ -33,6 +39,7 @@ const Categories = () => {
     loadCategories();
   }, []);
 
+  //display the total available categories
   const showCategoriesLength = () => {
     if (categories.length > 0) {
       return (
@@ -45,6 +52,7 @@ const Categories = () => {
     }
   };
 
+  //main
   return (
     <Layout
       className="container-fluid"

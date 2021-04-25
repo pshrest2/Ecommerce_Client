@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { signup } from "../auth";
 
 const Signup = () => {
+  //signup state
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -13,6 +14,7 @@ const Signup = () => {
     success: false,
   });
 
+  //signup fields destructure
   const { name, email, password, password_again, success, error } = values;
 
   const handleChange = (name) => (event) => {
@@ -20,12 +22,14 @@ const Signup = () => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
+  //submit function
   const clickSubmit = (event) => {
     event.preventDefault();
     if (password !== password_again) {
       setValues({ ...values, error: "Passwords must match" });
     } else {
       setValues({ ...values, error: false });
+      //call signup API to create new user
       signup({ name, email, password }).then((data) => {
         if (data.error) {
           setValues({ ...values, error: data.error, success: false });
@@ -43,6 +47,7 @@ const Signup = () => {
     }
   };
 
+  //signup form component
   const signUpForm = () => (
     <form action="">
       <div className="form-group">
@@ -90,6 +95,7 @@ const Signup = () => {
     </form>
   );
 
+  //error component
   const showError = () => (
     <div
       className="alert alert-danger"
@@ -98,6 +104,8 @@ const Signup = () => {
       {error}
     </div>
   );
+
+  //success component
   const showSuccess = () => (
     <div
       className="alert alert-info"
@@ -107,6 +115,7 @@ const Signup = () => {
     </div>
   );
 
+  //main
   return (
     <Layout
       title="Sign Up Page"

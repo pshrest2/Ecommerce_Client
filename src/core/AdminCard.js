@@ -9,22 +9,27 @@ import moment from "moment";
 import "./css/Card.css";
 import "./css/Button.css";
 
+//each admin card receives productInfo, and two functions to call later
 const AdminCard = ({ product, loadArrival, loadSell }) => {
   const [redirect, setRedirect] = useState(false);
   const { user, token } = isAuthenticated();
 
+  //delete a product
   const delProduct = (productId) => {
+    //call deleteProduct API to delete product
     deleteProduct(productId, user._id, token).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
-        //Update parent parent component's setProductsByArrival to true
+        //once a product is deleted, we need to rerender the home page. Thus,
+        //call the parent components's loadArrival and loadSell functions
         loadArrival ? loadArrival() : window.location.reload();
         loadSell ? loadSell() : window.location.reload();
       }
     });
   };
 
+  //display if a product is in stock or out of stock
   const showProductStock = (quantity) => {
     return quantity > 0 ? (
       <span className="badge badge-primary">In Stock</span>
@@ -33,12 +38,14 @@ const AdminCard = ({ product, loadArrival, loadSell }) => {
     );
   };
 
+  //redirect to home page
   const willRedirect = (redirect) => {
     if (redirect) {
       return <Redirect to="/" />;
     }
   };
 
+  //display remove item button in the card
   const showRemoveCartItem = () => {
     return (
       <button
@@ -50,6 +57,7 @@ const AdminCard = ({ product, loadArrival, loadSell }) => {
     );
   };
 
+  //display update item button in the cart
   const showUpdateCart = () => {
     return (
       <Link to={`/admin/product/update/${product._id}`}>
@@ -60,6 +68,7 @@ const AdminCard = ({ product, loadArrival, loadSell }) => {
     );
   };
 
+  //main
   return (
     <div className="cards__item__link">
       <div className="cards__item__info">

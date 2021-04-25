@@ -5,6 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import { getProduct, getCategories, updateProduct } from "./apiAdmin";
 
 const UpdateProduct = ({ match }) => {
+  //state to store all the info about a product
   const [values, setValues] = useState({
     name: "",
     description: "",
@@ -22,6 +23,8 @@ const UpdateProduct = ({ match }) => {
   });
 
   const { user, token } = isAuthenticated();
+
+  //destructure the necessary fields of product state
   const {
     name,
     description,
@@ -37,13 +40,13 @@ const UpdateProduct = ({ match }) => {
     formData,
   } = values;
 
+  //init function to get all the products. This function is called when the page loads
   const init = (productId) => {
     getProduct(productId).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
         //populate the state and then load categories
-
         setValues({
           ...values,
           name: data.name,
@@ -78,21 +81,28 @@ const UpdateProduct = ({ match }) => {
     init(match.params.productId);
   }, []);
 
+  //handleChange function
   const handleChange = (name) => (event) => {
+    //get the field that is updated
     const value = name === "photo" ? event.target.files[0] : event.target.value;
+
+    //update the form data with new fields
     formData.set(name, value);
     setValues({ ...values, createdProduct: "", [name]: value });
   };
 
+  //function to execute after submit button is submitted
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, loading: true });
 
+    //call the updateProduct API and pass productID, userID, token, and new formData
     updateProduct(match.params.productId, user._id, token, formData).then(
       (data) => {
         if (data.error) {
           setValues({ ...values, error: data.error, createdProduct: "" });
         } else {
+          //empty the form
           setValues({
             ...values,
             name: "",
@@ -111,6 +121,7 @@ const UpdateProduct = ({ match }) => {
     );
   };
 
+  //form component to udpate product
   const newPostForm = () => (
     <form className="mb-3" onSubmit={clickSubmit}>
       <h4>Post Photo</h4>
@@ -200,6 +211,7 @@ const UpdateProduct = ({ match }) => {
     </form>
   );
 
+  //error component
   const showError = () => (
     <div
       className="alert alert-danger"
@@ -209,6 +221,7 @@ const UpdateProduct = ({ match }) => {
     </div>
   );
 
+  //success component
   const showSuccess = () => (
     <div
       className="alert alert-info"
@@ -218,6 +231,7 @@ const UpdateProduct = ({ match }) => {
     </div>
   );
 
+  //loading component
   const showLoading = () =>
     loading && (
       <div className="alert alert-success">
@@ -225,12 +239,14 @@ const UpdateProduct = ({ match }) => {
       </div>
     );
 
+  //redirect to home page component
   const willRedirect = (redirect) => {
     if (redirect) {
       return <Redirect to="/" />;
     }
   };
 
+  //main
   return (
     <Layout title="Update Product" description={`${user.name}`}>
       <div className="row">

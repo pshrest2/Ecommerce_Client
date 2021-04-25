@@ -8,6 +8,8 @@ const RadioBox = ({ prices, handleFilters }) => {
     setValue(event.target.value);
   };
 
+  //main
+  //display radio buttons for all price ranges that we created
   return prices.map((price, index) => (
     <div key={index}>
       <input

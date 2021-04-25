@@ -4,10 +4,12 @@ import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
+  //destructure userID, name, email and user role from the isAuthenticated middleware
   const {
     user: { _id, name, email, role },
   } = isAuthenticated();
 
+  //user links components
   const userlinks = () => {
     return (
       <div className="card">
@@ -33,6 +35,7 @@ const Dashboard = () => {
     );
   };
 
+  //user info component
   const userInfo = () => {
     return (
       <div className="card mb-5">
@@ -49,6 +52,7 @@ const Dashboard = () => {
     );
   };
 
+  //main
   return (
     <Layout title="Dashboard" description={name} className="container">
       <div className="row">

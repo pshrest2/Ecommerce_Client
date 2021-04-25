@@ -30,6 +30,7 @@ const Menu = ({ history }) => {
 
   window.addEventListener("resize", showButton);
 
+  //menu
   return (
     <div>
       <nav className="navbar">
@@ -63,7 +64,7 @@ const Menu = ({ history }) => {
                 Shop
               </Link>
             </li>
-
+            {/* only display user Dashboard if user is authenticated and is not admin*/}
             {isAuthenticated() && isAuthenticated().user.role === 0 && (
               <li className="nav-item">
                 <Link
@@ -76,6 +77,7 @@ const Menu = ({ history }) => {
               </li>
             )}
 
+            {/* only display admin Dashboard if authenticated and is admin */}
             {isAuthenticated() && isAuthenticated().user.role === 1 && (
               <li className="nav-item">
                 <Link
@@ -88,6 +90,7 @@ const Menu = ({ history }) => {
               </li>
             )}
 
+            {/* Only display signin/signup if user is not authenticated */}
             {!isAuthenticated() && (
               <Fragment>
                 <li className="nav-item">
@@ -111,6 +114,7 @@ const Menu = ({ history }) => {
               </Fragment>
             )}
 
+            {/*Only display Signout if user is authenticated  */}
             {isAuthenticated() ? (
               isAuthenticated().user.role === 1 ? (
                 <li className="nav-item">
@@ -132,6 +136,8 @@ const Menu = ({ history }) => {
                     className="nav-links"
                     style={{ cursor: "pointer", color: "#ffffff" }}
                     onClick={() => {
+                      //empty cart when user logs out.
+                      //only do it if there is any item in the cart
                       if (totalItems() > 0) {
                         if (
                           typeof window !== undefined &&
@@ -139,7 +145,9 @@ const Menu = ({ history }) => {
                             "Logging out will delete all items in your cart. Are you sure you want to proceed?"
                           )
                         ) {
+                          //API to logout
                           signout(() => {
+                            //API to empty the cart
                             emptyCart(() => {
                               console.log("Emptying the cart...");
                               history.push("/");
@@ -159,6 +167,7 @@ const Menu = ({ history }) => {
               )
             ) : null}
 
+            {/*Only display the cart icon if user is authenticated and is not an admin  */}
             {isAuthenticated() && isAuthenticated().user.role === 0 && (
               <li className="nav-item">
                 <Link

@@ -5,13 +5,17 @@ import { Link } from "react-router-dom";
 import { updateCategory, getCategory } from "./apiAdmin";
 
 const UpdateCategory = (props) => {
+  //state to store the name of the category
   const [name, setName] = useState({});
+  //error state
   const [error, setError] = useState(false);
+  //success state
   const [success, setSuccess] = useState(false);
 
   //destructure user and info from local storage
   const { user, token } = isAuthenticated();
 
+  //load all the categories
   const loadCategory = (categoryId) => {
     getCategory(categoryId).then((data) => {
       if (data.error) {
@@ -27,12 +31,14 @@ const UpdateCategory = (props) => {
     loadCategory(categoryId);
   }, []);
 
+  //handleChange function
   const handleChange = (event) => {
     setError("");
     setSuccess(false);
     setName(event.target.value || "");
   };
 
+  //call this function once the form is submitted
   const cilckSubmit = (event) => {
     event.preventDefault();
     setError("");
@@ -51,6 +57,7 @@ const UpdateCategory = (props) => {
     });
   };
 
+  //form component to update category
   const updateCategoryForm = () => {
     return (
       <form onSubmit={cilckSubmit}>
@@ -71,18 +78,21 @@ const UpdateCategory = (props) => {
     );
   };
 
+  //success component
   const showSuccess = () => {
     if (success) {
       return <h3 className="text-success">Category is updated</h3>;
     }
   };
 
+  //error component
   const showError = () => {
     if (error) {
       return <h3 className="text-danger">Category should be unique</h3>;
     }
   };
 
+  //go back to categories component
   const goBack = () => (
     <div className="container mt-5">
       <Link to="/update/category" className="text-warning">
@@ -91,6 +101,7 @@ const UpdateCategory = (props) => {
     </div>
   );
 
+  //main
   return (
     <Layout title="Add a new Category" description={user.name}>
       <div className="row">

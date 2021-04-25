@@ -1,5 +1,6 @@
 import { API } from "../config";
 
+//API for signup
 export const signup = (user) => {
   return fetch(`${API}/signup`, {
     method: "POST",
@@ -17,6 +18,7 @@ export const signup = (user) => {
     });
 };
 
+//API to authenticate password. This returns true or false
 export const hashed_password = (data, token) => {
   return fetch(`${API}/verify/password`, {
     method: "POST",
@@ -35,6 +37,7 @@ export const hashed_password = (data, token) => {
     });
 };
 
+//API to signin
 export const signin = (user) => {
   return fetch(`${API}/signin`, {
     method: "POST",
@@ -52,6 +55,7 @@ export const signin = (user) => {
     });
 };
 
+//middleware to authenticate users. Sets the the JWT in localstorage
 export const authenticate = (data, next) => {
   if (typeof window !== "undefined") {
     localStorage.setItem("jwt", JSON.stringify(data));
@@ -59,6 +63,7 @@ export const authenticate = (data, next) => {
   }
 };
 
+//API for signout
 export const signout = (next) => {
   if (typeof window !== "undefined") {
     localStorage.removeItem("jwt");
@@ -74,6 +79,7 @@ export const signout = (next) => {
   }
 };
 
+//authenticates a user. Gets the JWT from the local storage to do this
 export const isAuthenticated = () => {
   if (typeof window === "undefined") return false;
 

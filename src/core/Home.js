@@ -10,10 +10,16 @@ import Search from "./Search";
 import "./css/Home.css";
 
 const Home = () => {
+  //state to store products ordered by most sold
   const [productsBySell, setProductsBySell] = useState([]);
+
+  //state to store products ordered by recently added
   const [productsByArrival, setProductsByArrival] = useState([]);
+
+  //state to store the error status
   const [error, setError] = useState(false);
 
+  //load all products that are most sold
   const loadProductsBySell = () => {
     getProducts("sold").then((data) => {
       if (data.error) {
@@ -23,6 +29,8 @@ const Home = () => {
       }
     });
   };
+
+  //load all products that are recently added
   const loadProductsByArrival = () => {
     getProducts("createdAt").then((data) => {
       if (data.error) {
@@ -38,6 +46,7 @@ const Home = () => {
     loadProductsBySell();
   }, []);
 
+  //main
   return (
     <Layout
       className="container-fluid"

@@ -8,6 +8,7 @@ const AdminDashboard = () => {
     user: { name, email, role },
   } = isAuthenticated();
 
+  //display admin links component
   const adminLinks = () => {
     return (
       <div className="card">
@@ -38,6 +39,7 @@ const AdminDashboard = () => {
     );
   };
 
+  //display admin info component
   const adminInfo = () => {
     return (
       <div className="card mb-5">
@@ -54,6 +56,7 @@ const AdminDashboard = () => {
     );
   };
 
+  //main
   return (
     <Layout title="Dashboard" description={name} className="container">
       <div className="row">

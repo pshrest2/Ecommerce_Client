@@ -12,6 +12,7 @@ const AdminSingleProduct = ({
   const [redirect, setRedirect] = useState(false);
   const { user, token } = isAuthenticated();
 
+  //delete a product by callin deleteProduct API
   const delProduct = (productId) => {
     deleteProduct(productId, user._id, token).then((data) => {
       if (data.error) {
@@ -22,6 +23,7 @@ const AdminSingleProduct = ({
     });
   };
 
+  //display total items in stock or out of stock
   const showProductStock = (quantity) => {
     return quantity > 0 ? (
       <span className="badge badge-primary">In Stock: {quantity}</span>
@@ -30,12 +32,15 @@ const AdminSingleProduct = ({
     );
   };
 
+  //redirect to home page
   const willRedirect = (redirect) => {
     if (redirect) {
       return <Redirect to="/" />;
     }
   };
 
+  //display the total quantity of a product it is less than 10.
+  //This is warning to user/admin that there is less items available
   const showProductQuantity = () => {
     if (product.quantity < 10 && product.quantity > 0) {
       return (
@@ -46,6 +51,7 @@ const AdminSingleProduct = ({
     }
   };
 
+  //display remove item button
   const showRemoveCartItem = () => {
     return (
       <button
@@ -57,6 +63,7 @@ const AdminSingleProduct = ({
     );
   };
 
+  //display update item button
   const showUpdateCart = () => {
     return (
       <Link to={`/admin/product/update/${product._id}`}>
@@ -67,6 +74,7 @@ const AdminSingleProduct = ({
     );
   };
 
+  //main
   return (
     <div className="row">
       <div className="col-6">

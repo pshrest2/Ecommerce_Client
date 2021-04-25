@@ -5,6 +5,7 @@ import { signup } from "../auth";
 import { SECRET } from "../config";
 
 const AdminSignup = () => {
+  //state to store admin signup data
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -16,6 +17,7 @@ const AdminSignup = () => {
     success: false,
   });
 
+  //destructure all fields from the state
   const {
     name,
     email,
@@ -27,11 +29,13 @@ const AdminSignup = () => {
     error,
   } = values;
 
+  //hdndleChange function
   const handleChange = (name) => (event) => {
     // this name variable is different from the state's name variable in line 8.
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
+  //clickSubmit function
   const clickSubmit = (event) => {
     event.preventDefault();
     if (password !== password_again) {
@@ -42,6 +46,8 @@ const AdminSignup = () => {
       setValues({ ...values, error: "Secret Key does not match" });
     } else {
       setValues({ ...values, error: false });
+
+      //call the signup API and pass the necessary fields
       signup({ name, email, password, role }).then((data) => {
         if (data.error) {
           setValues({ ...values, error: data.error, success: false });
@@ -60,6 +66,7 @@ const AdminSignup = () => {
     }
   };
 
+  //form component
   const signUpForm = () => (
     <form action="">
       <div className="form-group">
@@ -113,6 +120,7 @@ const AdminSignup = () => {
     </form>
   );
 
+  //error component
   const showError = () => (
     <div
       className="alert alert-danger"
@@ -121,6 +129,8 @@ const AdminSignup = () => {
       {error}
     </div>
   );
+
+  //success component
   const showSuccess = () => (
     <div
       className="alert alert-info"
@@ -130,6 +140,7 @@ const AdminSignup = () => {
     </div>
   );
 
+  //main
   return (
     <Layout
       title="Admin Signup Page"
